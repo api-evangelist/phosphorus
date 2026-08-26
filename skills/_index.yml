@@ -1,0 +1,33 @@
+generated: '2026-08-26'
+method: generated
+source: openapi/phosphorus-api-openapi.yml
+api: Phosphorus API
+note: >-
+  Packaged Agent Skills for the Phosphorus API. Every operationId referenced in every skill was
+  grepped out of the harvested OpenAPI contract -- none is invented. Phosphorus publishes no skills,
+  no AGENTS.md and no agent guidance of its own, so these are GENERATED, and they deliberately carry
+  the runtime warnings the contract itself omits: no idempotency key on any write, no documented rate
+  limit or backoff signal, no error body schema, and no restore path for a Vault secret or a
+  deleted scan config.
+skill_count: 4
+skills:
+- name: phosphorus-device-risk-triage
+  file: phosphorus-device-risk-triage.md
+  read_only: true
+  operations: 10
+  summary: Find the riskiest xIoT devices and assemble full evidence for one before any remediation.
+- name: phosphorus-dynamic-scan-lifecycle
+  file: phosphorus-dynamic-scan-lifecycle.md
+  read_only: false
+  operations: 10
+  summary: Create, tune, enable, disable and retire a dynamic scan config without a duplicate or an un-undoable overwrite.
+- name: phosphorus-vault-secret-handling
+  file: phosphorus-vault-secret-handling.md
+  read_only: false
+  operations: 7
+  summary: Store, read, list and rotate Vault credentials given there is no delete and no version restore.
+- name: phosphorus-provider-health-audit
+  file: phosphorus-provider-health-audit.md
+  read_only: false
+  operations: 7
+  summary: Audit registered integration providers and separate a Phosphorus fault from a broken upstream.

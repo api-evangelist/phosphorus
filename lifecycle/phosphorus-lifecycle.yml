@@ -1,0 +1,65 @@
+generated: '2026-08-26'
+method: derived
+source: >-
+  openapi/phosphorus-api-openapi.yml -- plus negative searches for a status page, changelog,
+  deprecation policy and SLA on phosphorus.io (page sitemap enumerated; status.phosphorus.io does
+  not resolve)
+versioning:
+  style: uri-path
+  current: v3
+  also_live: v2
+  detail: >-
+    v2 and v3 are served concurrently from a single contract, split by capability rather than by
+    generation. The contract's info.version is 2.0.0 even though it describes v3 paths, so the
+    document version and the URI versions do not track each other.
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: 0
+  detail: >-
+    Zero of the 30 operations carry deprecated: true (every operation explicitly sets it to false),
+    no Sunset or Deprecation response header is declared, and no deprecation policy page exists on
+    phosphorus.io. No `Deprecation` pointer is emitted.
+status_page:
+  published: false
+  url: null
+  detail: >-
+    status.phosphorus.io does not resolve in DNS and https://phosphorus.io/status/ returns 404. No
+    third-party status page (Statuspage, Instatus, Better Stack) is linked from the site, the
+    support page, or the footer. No `StatusPage` pointer is emitted.
+sla:
+  published: false
+  detail: >-
+    No SLA, uptime commitment or support-tier matrix is published publicly; terms of service at
+    https://phosphorus.io/terms-of-service/ are website terms, not an API service agreement.
+changelog:
+  published: false
+  detail: >-
+    No dated API changelog or release-notes page exists on phosphorus.io. Product announcements are
+    published as blog posts under https://phosphorus.io/resource-center/blog/ but are not versioned,
+    not dated against API versions, and do not record breaking changes. No `ChangeLog` pointer is
+    emitted.
+support:
+  channel: https://phosphorus.io/support/
+  customer_portal: https://support.phosphorus.io/
+  portal_note: redirects to a phosecure.atlassian.net Service Desk login -- customer-only
+corporate:
+  acquired_by: Dragos
+  acquisition_date: '2026-06-01'
+  announcement: https://phosphorus.io/phosphorus-joins-dragos-to-advance-device-to-network-xot-security/
+  detail: >-
+    Dragos acquired Phosphorus on 1 June 2026 to extend the Dragos Platform across the xOT
+    environment. As of this probe phosphorus.io still operates as its own brand and the API is still
+    served from *.phosphorus.io tenant hosts, but an acquisition is a lifecycle event for any
+    integrator: base hosts, auth, and the support channel are all candidates to move to dragos.com.
+evidence:
+- url: https://phosphorus.io/status/
+  status: 404
+- url: https://phosphorus.io/pricing/
+  status: 200
+  verdict: soft-200, serves the homepage
+- url: https://phosphorus.io/page-sitemap.xml
+  status: 200
+  verdict: 53 pages, none a changelog, status page, SLA or deprecation policy

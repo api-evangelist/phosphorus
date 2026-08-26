@@ -1,0 +1,45 @@
+generated: '2026-08-26'
+method: derived
+source: openapi/phosphorus-api-openapi.yml
+format: none
+note: >-
+  The Phosphorus contract declares exactly two response classes on every one of its 30 operations:
+  200 and 400 "Invalid input". There is no RFC 9457 application/problem+json media type, no error
+  schema in components.schemas, no per-error type URI, no machine-readable error code, and no
+  401/403/404/409/429/5xx documented anywhere -- even though the API is key-authenticated and every
+  v2 read is addressed by {uuid} or {id}, so an unauthenticated call and a missing device must both
+  produce statuses the contract does not describe. The 400 responses carry NO content block at all,
+  so an agent cannot learn the error envelope shape from the spec. The catalog below records the one
+  problem type the contract actually publishes; it is deliberately not padded with the codes the API
+  certainly returns but does not document. The docs error reference, if one exists, is behind the
+  customer support portal.
+coverage:
+  operations_total: 30
+  operations_with_4xx: 30
+  distinct_status_codes:
+  - 200
+  - 400
+  documented_error_bodies: 0
+  rfc9457: false
+problems:
+- status: 400
+  title: Invalid input
+  type: null
+  detail_schema: null
+  media_type: null
+  applies_to: all 30 operations
+  remediation: >-
+    Not documented. The contract gives no error body, code or field-level detail, so a client can
+    only surface the raw HTTP 400 to the caller.
+  source_operation: openapi/phosphorus-api-openapi.yml (every operation)
+undocumented_but_implied:
+- status: 401
+  reason: >-
+    Every operation declares security ApiKeyAuth (X-API-KEY header) yet no operation documents an
+    unauthenticated or invalid-key response.
+- status: 404
+  reason: >-
+    Fourteen operations are addressed by a path parameter ({uuid} or {id}) with no documented
+    not-found response.
+- status: 429
+  reason: No throttling response is documented; see rate-limits/phosphorus-rate-limits.yml.

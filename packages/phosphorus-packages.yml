@@ -1,0 +1,87 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  npm registry, PyPI, RubyGems, crates.io, Packagist, and the phosphorusinc GitHub organization --
+  plus phosphorus.io/support/ and phosphorus.io/integrations/, neither of which links an SDK
+note: >-
+  Phosphorus publishes NO first-party client library in any public registry. The three name matches
+  found (npm "phosphorus", PyPI "phosphorus", RubyGems "phosphorus") are unrelated projects that
+  happen to share the element name -- the PyPI one is a PEP 621 build backend -- and none is
+  authored by Phosphorus Cybersecurity. The phosphorusinc GitHub org holds six repositories, of
+  which four are forks or infrastructure (react-native, AndroidNetworkTools, docker-php-nginx,
+  composer-local-dev) and two are first-party but not SDKs (public, phosphorus_ebpf_stats). The
+  Phosphorus API is therefore consumed either directly over HTTP with an X-API-KEY header or
+  through a third-party connector (Rapid7 Surface Command, Microsoft Sentinel, ServiceNow, CyberArk,
+  Axonius, Check Point). No `SDKs` pointer is emitted, because there is no SDK.
+package_count: 0
+official_package_count: 0
+packages: []
+first_party_repositories:
+- name: phosphorusinc/phosphorus_ebpf_stats
+  url: https://github.com/phosphorusinc/phosphorus_ebpf_stats
+  language: C
+  license: GPL-2.0
+  registry: none
+  version: null
+  published: null
+  official: true
+  sdk: false
+  note: >-
+    eBPF statistics program. First-party and actively touched (last push 2026-03-05) but it is not a
+    client library for the Phosphorus API and is published to no package registry, so there is no
+    version metadata endpoint to read.
+- name: phosphorusinc/public
+  url: https://github.com/phosphorusinc/public
+  registry: none
+  version: null
+  published: null
+  official: true
+  sdk: false
+  note: >-
+    Holds only a README and the PGP public key for security@phosphorus.io. Last push 2017-06-12.
+    Recorded in security/phosphorus-vulnerability-disclosure.yml, not as a package.
+name_collisions_checked:
+- registry: npm
+  name: phosphorus
+  url: https://registry.npmjs.org/phosphorus
+  status: 200
+  version: 0.0.1
+  published: null
+  official: false
+  note: Unrelated placeholder package with no description and no repository; not Phosphorus Cybersecurity.
+- registry: pypi
+  name: phosphorus
+  url: https://pypi.org/pypi/phosphorus/json
+  status: 200
+  version: 0.2614972128
+  published: null
+  official: false
+  note: A PEP 621 compliant build backend (phosphorus.readthedocs.io); unrelated to this company.
+- registry: rubygems
+  name: phosphorus
+  url: https://rubygems.org/api/v1/gems/phosphorus.json
+  status: 200
+  version: null
+  official: false
+  note: Name match only; not read further once ownership was ruled out.
+- registry: npm
+  name: '@phosphorus/sdk'
+  status: 404
+- registry: npm
+  name: phosphorus-sdk
+  status: 404
+- registry: npm
+  name: phosphorus-api
+  status: 404
+- registry: npm
+  name: phosphorus-io
+  status: 404
+- registry: pypi
+  name: phosphorus-sdk
+  status: 404
+- registry: pypi
+  name: phosphorus-api
+  status: 404
+- registry: packagist
+  name: phosphorus/phosphorus
+  status: 404

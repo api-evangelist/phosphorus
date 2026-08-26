@@ -1,0 +1,24 @@
+generated: '2026-08-26'
+method: searched
+source: https://phosphorus.io/ (sitemap page inventory + a direct probe of https://phosphorus.io/pricing/)
+plan_count: 0
+note: >-
+  Phosphorus publishes no pricing at all. There is no /pricing/ page: a request to
+  https://phosphorus.io/pricing/ returns HTTP 200 but the body is the homepage (a WordPress soft-200,
+  420,916 bytes, H1 "xIoT Cyber-Physical Security Platform"), and no pricing URL appears anywhere in
+  the Yoast page sitemap. The published route to an account is a sales gate --
+  https://phosphorus.io/request-a-demo/ and https://phosphorus.io/contact-us/ -- so plan names,
+  prices, quotas, overages and per-tier limits are all unavailable to the public. This is a recorded
+  zero, not an unchecked field.
+onboarding: contact-sales
+plans: []
+evidence:
+- url: https://phosphorus.io/pricing/
+  status: 200
+  verdict: soft-200 -- serves the homepage, not a pricing page
+- url: https://phosphorus.io/page-sitemap.xml
+  status: 200
+  verdict: 53 pages listed, none of them a pricing page
+- url: https://phosphorus.io/request-a-demo/
+  status: 200
+  verdict: the actual published onboarding path -- a demo request form

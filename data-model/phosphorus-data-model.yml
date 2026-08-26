@@ -1,0 +1,195 @@
+generated: '2026-08-26'
+method: derived
+source: openapi/phosphorus-api-openapi.yml
+note: >-
+  Entity graph derived from components.schemas ($ref links and id-reference fields) in the
+  Phosphorus OpenAPI 3.0.0 contract. Device is the hub: every v2 sub-resource hangs off a device
+  uuid, and Site is the container a device belongs to. The v3 surface adds an operational plane
+  (DynamicScanConfig, Provider, Vault secret) that references Site and Provider by id. Phosphorus
+  publishes no object reference, so id prefixes and identifier formats below are stated only where
+  the spec itself states them (device ids and site ids are plain strings; the v2 device path
+  parameter is named uuid).
+entities:
+- name: Device
+  schema: device
+  identifier: id
+  path_parameter: uuid
+  description: >-
+    An xIoT asset discovered on the network -- addr, hostname, mac, manufacturer, model, type,
+    firmware and availableFirmware, credential and password-policy state, port inventory (tcpPorts,
+    udpPorts), interrogation history, and the risk booleans the platform scores it on
+    (hasDefaultCredentials, invalidCredentials, outOfDateFirmware, vulnerable, discontinued).
+  operations:
+  - getDeviceByUUIDv2
+  - searchv2
+  - getExcludedDevicesv3
+- name: Alert
+  schema: _alert
+  identifier: id
+  description: >-
+    A finding raised against a device or the tenant, typed by severity and subtype and flagged as
+    global_alert, custom_alert or device_alert.
+  operations:
+  - getAlertsv2
+  - getDeviceAlertsByUUIDv2
+- name: Firmware
+  schema: firmwareObj
+  identifier: id
+  description: >-
+    A firmware image with version, releaseDate, releaseNotes, checksums (md5, sha256, crc32c),
+    associated cves, severity, and whether the device canUpdate / downgrade to it.
+  operations:
+  - getDeviceFirmwareByUUIDv2
+- name: Certificate
+  schema: null
+  description: Certificates held by a device. Returned by operation but not modelled as a named schema.
+  operations:
+  - getDeviceCertificateByUUIDv2
+- name: Credential
+  schema: null
+  description: Credentials associated with a device or assignable from a provider.
+  operations:
+  - getDeviceCredentialByUUIDv2
+  - listProviderCredentialsv3
+- name: LogEntry
+  schema: logEntry
+  identifier: id
+  description: Device activity log line -- message, created, device, user.
+  operations:
+  - getDeviceLogsByUUIDv2
+- name: Scan
+  schema: null
+  description: A scan record for a device.
+  operations:
+  - getDeviceScansByUUIDv2
+- name: Site
+  schema: Site
+  identifier: id
+  description: >-
+    A deployment location / scanner instance -- host, port, hbPort, lastSeen, online, default,
+    isLocal, acceptingScans, smMode, smVersion, smHostInfo.
+  operations:
+  - getSitev2
+- name: ExcludedDevice
+  schema: excludedDevicesObject
+  identifier: null
+  description: >-
+    A device excluded from management, keyed by addr/mac and carrying the jobId and siteId it was
+    excluded under.
+  operations:
+  - getExcludedDevicesv3
+- name: DynamicScanConfig
+  schema: DynamicScanConfig
+  identifier: id
+  description: >-
+    A configured dynamic scan -- name, description, enabled, config, createdAt/updatedAt, userId,
+    lastSuccessfulScan, and embedded metrics (totalIPsScanned, totalScanRequests). References a site
+    and a provider both by id and by denormalised name.
+  operations:
+  - listDynamicScanConfigsv3
+  - getDynamicScanConfigv3
+  - createDynamicScanConfigv3
+  - updateDynamicScanConfigv3
+  - deleteDynamicScanConfigv3
+  - enableDynamicScanConfigv3
+  - disableDynamicScanConfigv3
+  - submitDynamicScanDatav3
+- name: Provider
+  schema: null
+  identifier: id
+  description: >-
+    An external integration (credential vault, CMDB, scanner) registered with the tenant, with a
+    health-check operation per provider and one across all providers.
+  operations:
+  - getProvidersv3
+  - getProviderByIdv3
+  - performHealthCheckv3
+  - performAllHealthChecksv3
+  - listProviderCredentialsv3
+- name: Secret
+  schema: createSecretBody
+  identifier: externalId
+  description: >-
+    A credential stored in the Phosphorus Vault -- name, login, password, serialNumber; listed with
+    name + externalId only.
+  operations:
+  - createSecretv3
+  - listSecretsv3
+  - getSecretv3
+  - updateSecretv3
+relationships:
+- from: Device
+  to: Site
+  type: belongs_to
+  via: siteId
+  evidence: device.siteId and device.site
+- from: Device
+  to: Alert
+  type: has_many
+  via: alerts
+  evidence: device.alerts, device.suppressedAlerts, getDeviceAlertsByUUIDv2
+- from: Device
+  to: Firmware
+  type: has_one
+  via: firmware
+  evidence: device.firmware and device.availableFirmware
+- from: Device
+  to: Credential
+  type: has_many
+  via: credentials
+  evidence: device.credentials, getDeviceCredentialByUUIDv2
+- from: Device
+  to: Certificate
+  type: has_many
+  via: uuid path parameter
+  evidence: getDeviceCertificateByUUIDv2
+- from: Device
+  to: LogEntry
+  type: has_many
+  via: uuid path parameter
+  evidence: getDeviceLogsByUUIDv2 and logEntry.device
+- from: Device
+  to: Scan
+  type: has_many
+  via: uuid path parameter
+  evidence: getDeviceScansByUUIDv2, device.lastScan, device.lastScanExtraction
+- from: Alert
+  to: Device
+  type: belongs_to
+  via: device_alert
+  evidence: _alert.device_alert
+- from: LogEntry
+  to: Device
+  type: belongs_to
+  via: device
+  evidence: logEntry.device
+- from: ExcludedDevice
+  to: Site
+  type: belongs_to
+  via: siteId
+  evidence: excludedDevicesObject.siteId
+- from: DynamicScanConfig
+  to: Site
+  type: belongs_to
+  via: siteId
+  evidence: DynamicScanConfig.siteId / siteName
+- from: DynamicScanConfig
+  to: Provider
+  type: belongs_to
+  via: providerId
+  evidence: DynamicScanConfig.providerId / providerName
+- from: DynamicScanConfig
+  to: DynamicScanConfigMetrics
+  type: has_one
+  via: metrics
+  evidence: DynamicScanConfig.metrics
+- from: Provider
+  to: Credential
+  type: has_many
+  via: id path parameter
+  evidence: listProviderCredentialsv3
+- from: Search
+  to: Device
+  type: has_many
+  via: devices
+  evidence: getSearchResponse.devices plus a facets block

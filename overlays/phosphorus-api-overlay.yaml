@@ -1,0 +1,54 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Phosphorus API
+  version: 1.0.0
+extends: openapi/phosphorus-api-openapi.yml
+x-generated: '2026-08-26'
+x-method: generated
+x-source: openapi/phosphorus-api-openapi.yml + the artifacts in this repository
+x-note: Non-destructive enhancements only. The harvested contract is never mutated; the byte-identical original
+  is kept at openapi/_original/phosphorus-openapi.json. Every action below records something API Evangelist established
+  by probe or derivation, not something Phosphorus published.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://github.com/api-evangelist/phosphorus
+    x-provider: Phosphorus Cybersecurity Inc.
+    x-parent-company: Dragos (acquired 2026-06-01)
+    x-contract-source: https://phosphorus.io/api/swagger/public/swagger.json (served per tenant; 404 on the marketing
+      host)
+    x-public-api-reference: false
+- target: $.servers
+  update:
+  - url: https://{tenant}.phosphorus.io
+    description: Per-tenant Phosphorus instance. The published contract carries a relative "/" server because it
+      is served from inside the tenant.
+    variables:
+      tenant:
+        default: example
+        description: The customer's own Phosphorus instance hostname.
+- target: $.info
+  update:
+    x-rate-limits: undocumented -- no 429, Retry-After or RateLimit header in the contract
+    x-idempotency: unsupported -- no Idempotency-Key on any of the 11 write operations
+    x-error-envelope: undeclared -- 400 "Invalid input" carries no content block
+    x-reversibility: documented (no windows stated) -- see conventions/phosphorus-conventions.yml
+- target: $.tags
+  update:
+  - name: Alerts
+    description: Tenant-wide findings, time-range queryable, defaulting to active alerts in the last 24 hours.
+  - name: Device
+    description: 'Single-device reads addressed by uuid: alerts, certificates, credentials, data provenance, firmware,
+      logs, scans.'
+  - name: Devices
+    description: Fleet-level device reads, currently only the excluded-device list.
+  - name: Search
+    description: Cross-device query using the Phosphorus Search Query Syntax via the q parameter.
+  - name: Sites
+    description: Deployment locations and their scanner instances.
+  - name: Dynamic Scans
+    description: Create, read, update, delete, enable, disable and feed dynamic scan configurations.
+  - name: Providers
+    description: Registered external integrations and their health checks and assignable credentials.
+  - name: Vault
+    description: Secrets in the Phosphorus Vault. Updates create a new version; no restore operation is published.

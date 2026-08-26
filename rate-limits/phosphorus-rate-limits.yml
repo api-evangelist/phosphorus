@@ -1,0 +1,20 @@
+generated: '2026-08-26'
+method: derived
+source: openapi/phosphorus-api-openapi.yml
+limit_count: 0
+note: >-
+  Phosphorus documents no rate limits. The OpenAPI contract declares only 200 and 400 responses on
+  all 30 operations -- there is no 429, no Retry-After, and no X-RateLimit-* / RateLimit-* response
+  header anywhere in the spec. Because the API is deployed per tenant on the customer's own
+  Phosphorus instance and the human-readable reference sits behind the customer support portal
+  (phosecure.atlassian.net), no public documentation of throttling could be searched. An agent
+  calling this API therefore has no runtime backoff signal to read. Honest zero, not unchecked.
+headers: []
+limits: []
+exhaustion_status: null
+evidence:
+- source: openapi/phosphorus-api-openapi.yml
+  finding: zero occurrences of 429, Retry-After, RateLimit or X-RateLimit across 30 operations
+- url: https://support.phosphorus.io/
+  status: 200
+  finding: redirects to phosecure.atlassian.net Service Desk login; rate-limit docs are customer-only

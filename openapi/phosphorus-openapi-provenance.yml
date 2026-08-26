@@ -1,0 +1,89 @@
+generated: '2026-08-26'
+method: searched
+source: https://raw.githubusercontent.com/rapid7/r7-surcom-connectors/main/connectors/rapid7/phosphorus/refdocs/swagger.json
+canonical_source: https://phosphorus.io/api/swagger/public/swagger.json
+note: >-
+  How this contract was recovered, and why it is Phosphorus's own. The canonical location is
+  https://phosphorus.io/api/swagger/public/swagger.json -- Rapid7's Surface Command connector for
+  Phosphorus names exactly that URL in its `reference-schemas` block. That URL returns 404 today on
+  the phosphorus.io marketing host (WordPress on WP Engine), because the API and its swagger document
+  are served from inside each customer's own tenant instance rather than from the public site:
+  Rapid7's own connector asks operators for a "Base URL for the Phosphorus API" with the example
+  https://example.phosphorus.io. Rapid7 vendors a copy of the document at the path above, and that
+  copy -- fetched at HTTP 200, 84,033 bytes -- is what is saved here byte-for-byte at
+  openapi/_original/phosphorus-openapi.json, with a faithful YAML rendering at
+  openapi/phosphorus-api-openapi.yml.
+ownership_check:
+  verdict: belongs to Phosphorus
+  evidence:
+  - field: info.title
+    value: Phosphorus API
+  - field: info.description
+    value: Swagger documentation for the Phosphorus API
+  - field: components.securitySchemes.ApiKeyAuth.name
+    value: X-API-KEY
+  - field: servers
+    value: '[{url: "/"}]'
+    reading: >-
+      A relative server, which is what a spec served from inside the tenant instance looks like. This
+      is the templated / self-hosted case, not a foreign host.
+  - field: paths
+    reading: >-
+      All 24 paths are Phosphorus product surface -- devices, device firmware, device certificates,
+      device credentials, sites, dynamic scans, integration providers, and the "Phosphorus Vault"
+      (named in the operation summaries themselves).
+  corroboration:
+  - source: https://github.com/rapid7/r7-surcom-connectors/blob/main/connectors/rapid7/phosphorus/connector.spec.yaml
+    finding: >-
+      Rapid7's connector declares reference-schemas.url = https://phosphorus.io/api/swagger/public/swagger.json
+      and settings.url.example = https://example.phosphorus.io, independently confirming both the
+      upstream location and the per-tenant base URL.
+probes:
+- url: https://phosphorus.io/api/swagger/public/swagger.json
+  status: 404
+- url: https://phosphorus.io/openapi.json
+  status: 404
+- url: https://phosphorus.io/swagger.json
+  status: 404
+- url: https://api.phosphorus.io/openapi.json
+  status: 503
+- url: https://api.phosphorus.io/swagger.json
+  status: 503
+- url: https://api.phosphorus.io/v1/openapi.json
+  status: 503
+- url: https://api.phosphorus.io/graphql
+  status: 503
+- url: https://docs.phosphorus.io/openapi.json
+  status: 403
+- url: https://docs.phosphorus.io/swagger.json
+  status: 403
+- url: https://support.phosphorus.io/openapi.json
+  status: 404
+- url: https://raw.githubusercontent.com/rapid7/r7-surcom-connectors/main/connectors/rapid7/phosphorus/refdocs/swagger.json
+  status: 200
+contract:
+  spec: OpenAPI 3.0.0
+  info_version: 2.0.0
+  paths: 24
+  operations: 30
+  schemas: 29
+  tags:
+  - Alerts
+  - Device
+  - Devices
+  - Dynamic Scans
+  - Providers
+  - Search
+  - Sites
+  - Vault
+  operation_ids_unique: true
+  operations_with_summary: 30
+  operations_with_description: 0
+  response_codes:
+  - 200
+  - 400
+  examples_in_spec: 0
+  sha256_original: fd188244d67a2404b9ebba90e3adba9ffe67b83f06cdd3a8a21a42d6039f52ef
+files:
+  original: openapi/_original/phosphorus-openapi.json
+  working: openapi/phosphorus-api-openapi.yml

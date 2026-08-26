@@ -64,5 +64,19 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Phosphorus is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/phosphorus_stock/
+Phosphorus Cybersecurity is a cyber-physical systems (CPS) security company in Nashville, Tennessee, founded in 2017
+by Chris Rouland, Earle Ady and Rebecca Rouland, and acquired by Dragos on 1 June 2026. Its agentless xIoT platform
+discovers, assesses, hardens and remediates IoT, OT, IIoT and IoMT devices across enterprise and critical infrastructure
+networks.
+
+Phosphorus publishes an OpenAPI 3.0.0 contract for its REST API — 24 paths, 30 operations, `X-API-KEY` header auth —
+serving it from each tenant instance at `/api/swagger/public/swagger.json`. It publishes no developer portal, no public
+API reference, no SDK, no MCP server and no pricing; the human-readable reference sits behind the customer support
+portal.
+
+- Website: https://phosphorus.io/
+- Platform: https://phosphorus.io/platform/
+- Support: https://phosphorus.io/support/
+- GitHub: https://github.com/phosphorusinc
+- Security contact: security@phosphorus.io (PGP key at https://github.com/phosphorusinc/public)
+- Harvest source (secondary market): https://forgeglobal.com/phosphorus_stock/

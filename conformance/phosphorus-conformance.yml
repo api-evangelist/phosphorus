@@ -1,0 +1,92 @@
+generated: '2026-08-26'
+method: derived
+source: >-
+  openapi/phosphorus-api-openapi.yml -- plus a search of phosphorus.io for published compliance
+  claims (no trust page, no /security/ page, no /trust/ page; probe-security-programs.py returned
+  vdp=none trust=none)
+note: >-
+  Cross-cutting conformance read from the contract. Phosphorus publishes no trust center and no
+  named certification (SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP) on its public site, so NO
+  `Compliance` pointer is emitted -- the company sells INTO regulated environments and its
+  /solutions/compliance/ page is about the customer's regulatory posture, not about certifications
+  Phosphorus itself holds. Recording that distinction is the point: a marketing page about
+  compliance is not a published compliance program.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: openapi field is "3.0.0"; 24 paths, 30 operations, 29 component schemas
+- id: api-key-auth
+  conforms: true
+  evidence: components.securitySchemes.ApiKeyAuth -- type apiKey, in header, name X-API-KEY
+- id: oauth2
+  conforms: false
+  evidence: no oauth2 securityScheme; no authorization or token endpoint anywhere in the contract
+- id: oidc
+  conforms: false
+  evidence: no openIdConnect securityScheme; /.well-known/openid-configuration 404s on every host
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: 400 responses declare no content block and no application/problem+json media type
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on phosphorus.io and every other reachable host
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: no Sunset or Deprecation header declared; zero operations marked deprecated
+- id: idempotency
+  conforms: false
+  evidence: no Idempotency-Key header or equivalent; see conventions/phosphorus-conventions.yml
+- id: pagination
+  conforms: true
+  partial: true
+  evidence: >-
+    limit and offset query parameters on the device sub-resource and v3 list reads, but no total,
+    next or cursor field in the responses, so pages are not self-describing
+- id: json-api
+  conforms: false
+  evidence: plain JSON arrays and objects; no JSON:API document structure
+- id: odata
+  conforms: false
+  evidence: no $metadata surface and no OData query options
+- id: scim
+  conforms: false
+  evidence: no urn:ietf:params:scim:schemas:* URN and no /Users or /Groups resource
+domain_standards:
+  market: xIoT / cyber-physical systems security (IoT, OT, IIoT, IoMT device management)
+  declared_in_contract: none
+  detail: >-
+    Nothing in the contract declares a domain standard for its market. There is no SBOM/CycloneDX or
+    SPDX document type on the firmware resource, no CSAF or VEX advisory shape, no OCSF or STIX/TAXII
+    event schema on the alert resource, no NIST OSCAL control surface, and no CPE identifier on the
+    device schema -- although firmwareObj does carry a `cves` field, which is a raw CVE-ID list
+    rather than a conformant advisory document. This is recorded as an absence, not a penalty: the
+    reward-only domain_standard_conformance check is simply not earned here.
+  candidates_probed:
+  - id: cyclonedx-sbom
+    found: false
+    where_checked: components.schemas.firmwareObj (has md5/sha256/crc32c/cves but no bom or SBOM ref)
+  - id: csaf-vex
+    found: false
+    where_checked: components.schemas._alert and firmwareObj
+  - id: ocsf
+    found: false
+    where_checked: components.schemas._alert (severity/subtype are Phosphorus-local vocabularies)
+  - id: stix-taxii
+    found: false
+    where_checked: whole contract
+  - id: cpe
+    found: false
+    where_checked: components.schemas.device (manufacturer/model/type are free strings)
+compliance_program:
+  published: false
+  certifications: []
+  evidence:
+  - url: https://phosphorus.io/trust/
+    status: 404
+  - url: https://phosphorus.io/security/
+    status: 404
+  - url: https://phosphorus.io/solutions/compliance/
+    status: 200
+    verdict: >-
+      customer-facing marketing about regulatory drivers for xIoT security -- not a statement of
+      certifications Phosphorus holds

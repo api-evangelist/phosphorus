@@ -1,0 +1,245 @@
+generated: '2026-08-26'
+method: derived
+source: openapi/phosphorus-api-openapi.yml -- plus a negative search of phosphorus.io, the phosphorusinc
+  GitHub organization, npm and PyPI for any Phosphorus MCP server
+status: candidate
+name: Phosphorus MCP (candidate)
+description: Phosphorus ships no MCP server. There is no hosted /mcp endpoint on phosphorus.io, api.phosphorus.io,
+  docs.phosphorus.io or support.phosphorus.io; no MCP package exists in npm or PyPI under a Phosphorus
+  name; and the phosphorusinc GitHub organization holds no MCP repository. The tools below are a DERIVED
+  candidate set -- one per real operationId in the published OpenAPI contract -- so that the agent surface
+  this API would have is recorded rather than guessed at later. No endpoint URL is invented and NO MCPServer
+  pointer is written into apis.yml, because nothing is deployed. Note that 11 of these 30 operations are
+  writes against production security infrastructure (credential vault, scan configuration, provider registration),
+  so any real server here would need the reversibility and idempotency gaps in conventions/phosphorus-conventions.yml
+  closed first.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: derived
+  note: 'mode: none -- nobody ships a server. The auth field records what a server WOULD need (the API''s
+    X-API-KEY header), not an observed MCP auth flow.'
+negative_search:
+- url: https://phosphorus.io/
+  status: 200
+  finding: no MCP, agent or LLM integration mentioned anywhere on the site or in the 53-page sitemap
+- url: https://registry.npmjs.org/@phosphorus/sdk
+  status: 404
+  finding: no Phosphorus npm scope
+- url: https://github.com/phosphorusinc
+  status: 200
+  finding: 6 repositories, none MCP-related
+tools:
+- name: getAlertsv2
+  description: Get all alerts within a specified time range
+  method: GET
+  path: /api/v2/alerts
+  tag: Alerts
+  source_operation: openapi/phosphorus-api-openapi.yml#getAlertsv2
+  read_only: true
+- name: getDeviceByUUIDv2
+  description: Return the current Device with a uuid specified in the URL, and optionally perform an interrogation
+  method: GET
+  path: /api/v2/device/{uuid}
+  tag: Device
+  source_operation: openapi/phosphorus-api-openapi.yml#getDeviceByUUIDv2
+  read_only: true
+- name: getDeviceAlertsByUUIDv2
+  description: Get a list of available alert objects for a specific device
+  method: GET
+  path: /api/v2/device/{uuid}/alerts
+  tag: Device
+  source_operation: openapi/phosphorus-api-openapi.yml#getDeviceAlertsByUUIDv2
+  read_only: true
+- name: getDeviceCertificateByUUIDv2
+  description: Get the available certificates for a specific device
+  method: GET
+  path: /api/v2/device/{uuid}/certificates
+  tag: Device
+  source_operation: openapi/phosphorus-api-openapi.yml#getDeviceCertificateByUUIDv2
+  read_only: true
+- name: getDeviceCredentialByUUIDv2
+  description: Get the available credentials for a specific device
+  method: GET
+  path: /api/v2/device/{uuid}/credentials
+  tag: Device
+  source_operation: openapi/phosphorus-api-openapi.yml#getDeviceCredentialByUUIDv2
+  read_only: true
+- name: getDeviceDataByUUIDv2
+  description: Get a list of available data provenance objects for a specific device
+  method: GET
+  path: /api/v2/device/{uuid}/data
+  tag: Device
+  source_operation: openapi/phosphorus-api-openapi.yml#getDeviceDataByUUIDv2
+  read_only: true
+- name: getDeviceFirmwareByUUIDv2
+  description: Get a list of available firmware objects for a specific device
+  method: GET
+  path: /api/v2/device/{uuid}/firmware
+  tag: Device
+  source_operation: openapi/phosphorus-api-openapi.yml#getDeviceFirmwareByUUIDv2
+  read_only: true
+- name: getDeviceLogsByUUIDv2
+  description: Get a list of available log objects for a specific device
+  method: GET
+  path: /api/v2/device/{uuid}/logs
+  tag: Device
+  source_operation: openapi/phosphorus-api-openapi.yml#getDeviceLogsByUUIDv2
+  read_only: true
+- name: getDeviceScansByUUIDv2
+  description: Get a list of available scans for a specific device
+  method: GET
+  path: /api/v2/device/{uuid}/scans
+  tag: Device
+  source_operation: openapi/phosphorus-api-openapi.yml#getDeviceScansByUUIDv2
+  read_only: true
+- name: searchv2
+  description: The /api/v2/search endpoint allows querying of Devices based on their attributes
+  method: GET
+  path: /api/v2/search
+  tag: Search
+  source_operation: openapi/phosphorus-api-openapi.yml#searchv2
+  read_only: true
+- name: getSitev2
+  description: Get a site
+  method: GET
+  path: /api/v2/sites/{id}
+  tag: Sites
+  source_operation: openapi/phosphorus-api-openapi.yml#getSitev2
+  read_only: true
+- name: getExcludedDevicesv3
+  description: Returns excluded devices, queryable by date, jobId
+  method: GET
+  path: /api/v3/devices/excluded
+  tag: Devices
+  source_operation: openapi/phosphorus-api-openapi.yml#getExcludedDevicesv3
+  read_only: true
+- name: listDynamicScanConfigsv3
+  description: List all dynamic scan configs
+  method: GET
+  path: /api/v3/dynamic-scans
+  tag: Dynamic Scans
+  source_operation: openapi/phosphorus-api-openapi.yml#listDynamicScanConfigsv3
+  read_only: true
+- name: createDynamicScanConfigv3
+  description: Create a dynamic scan config
+  method: POST
+  path: /api/v3/dynamic-scans
+  tag: Dynamic Scans
+  source_operation: openapi/phosphorus-api-openapi.yml#createDynamicScanConfigv3
+  read_only: false
+- name: submitDynamicScanDatav3
+  description: Submit data for a dynamic scan config
+  method: POST
+  path: /api/v3/dynamic-scans/data
+  tag: Dynamic Scans
+  source_operation: openapi/phosphorus-api-openapi.yml#submitDynamicScanDatav3
+  read_only: false
+- name: disableDynamicScanConfigv3
+  description: Disable a dynamic scan config
+  method: POST
+  path: /api/v3/dynamic-scans/disable/{id}
+  tag: Dynamic Scans
+  source_operation: openapi/phosphorus-api-openapi.yml#disableDynamicScanConfigv3
+  read_only: false
+- name: enableDynamicScanConfigv3
+  description: Enable a dynamic scan config
+  method: POST
+  path: /api/v3/dynamic-scans/enable/{id}
+  tag: Dynamic Scans
+  source_operation: openapi/phosphorus-api-openapi.yml#enableDynamicScanConfigv3
+  read_only: false
+- name: getDynamicScanConfigv3
+  description: Get a dynamic scan config
+  method: GET
+  path: /api/v3/dynamic-scans/{id}
+  tag: Dynamic Scans
+  source_operation: openapi/phosphorus-api-openapi.yml#getDynamicScanConfigv3
+  read_only: true
+- name: updateDynamicScanConfigv3
+  description: Update a dynamic scan config
+  method: PUT
+  path: /api/v3/dynamic-scans/{id}
+  tag: Dynamic Scans
+  source_operation: openapi/phosphorus-api-openapi.yml#updateDynamicScanConfigv3
+  read_only: false
+- name: deleteDynamicScanConfigv3
+  description: Delete a dynamic scan config
+  method: DELETE
+  path: /api/v3/dynamic-scans/{id}
+  tag: Dynamic Scans
+  source_operation: openapi/phosphorus-api-openapi.yml#deleteDynamicScanConfigv3
+  read_only: false
+- name: getProvidersv3
+  description: Gets all providers
+  method: GET
+  path: /api/v3/providers
+  tag: Providers
+  source_operation: openapi/phosphorus-api-openapi.yml#getProvidersv3
+  read_only: true
+- name: performAllHealthChecksv3
+  description: Performs a health check for every provider with a low concurrency
+  method: POST
+  path: /api/v3/providers/health-check
+  tag: Providers
+  source_operation: openapi/phosphorus-api-openapi.yml#performAllHealthChecksv3
+  read_only: false
+- name: getProviderByIdv3
+  description: Get provider by uuid
+  method: GET
+  path: /api/v3/providers/{id}
+  tag: Providers
+  source_operation: openapi/phosphorus-api-openapi.yml#getProviderByIdv3
+  read_only: true
+- name: listProviderCredentialsv3
+  description: Returns a list of credentials available to assign
+  method: GET
+  path: /api/v3/providers/{id}/credentials
+  tag: Providers
+  source_operation: openapi/phosphorus-api-openapi.yml#listProviderCredentialsv3
+  read_only: true
+- name: performHealthCheckv3
+  description: Performs provider health check
+  method: POST
+  path: /api/v3/providers/{id}/health-check
+  tag: Providers
+  source_operation: openapi/phosphorus-api-openapi.yml#performHealthCheckv3
+  read_only: false
+- name: createSecretv3
+  description: Creates a secret in the Phosphorus Vault
+  method: POST
+  path: /api/v3/vault
+  tag: Vault
+  source_operation: openapi/phosphorus-api-openapi.yml#createSecretv3
+  read_only: false
+- name: listSecretsv3
+  description: Retrieve a list of secrets from the Phosphorus Vault
+  method: GET
+  path: /api/v3/vault
+  tag: Vault
+  source_operation: openapi/phosphorus-api-openapi.yml#listSecretsv3
+  read_only: true
+- name: updateNativeVaultToDefaultv3
+  description: Updates Phosphorus Vault to default
+  method: PUT
+  path: /api/v3/vault
+  tag: Vault
+  source_operation: openapi/phosphorus-api-openapi.yml#updateNativeVaultToDefaultv3
+  read_only: false
+- name: updateSecretv3
+  description: Updates a secret in the Phosphorus Vault by creating a new version
+  method: PUT
+  path: /api/v3/vault/{id}
+  tag: Vault
+  source_operation: openapi/phosphorus-api-openapi.yml#updateSecretv3
+  read_only: false
+- name: getSecretv3
+  description: Retrieve a specific secret out of the Phosphorus Vault
+  method: GET
+  path: /api/v3/vault/{id}
+  tag: Vault
+  source_operation: openapi/phosphorus-api-openapi.yml#getSecretv3
+  read_only: true

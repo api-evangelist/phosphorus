@@ -1,0 +1,121 @@
+generated: '2026-08-26'
+method: probed
+source: live GET probes of /.well-known/* on every Phosphorus host reachable from apis.yml
+note: >-
+  No Phosphorus host serves any /.well-known document. phosphorus.io (WordPress on WP Engine behind
+  Cloudflare) returns a real 404 for every path, confirmed against a random-path control that returns
+  the identical 290,154-byte 404 body. api.phosphorus.io is a per-tenant ALB that answers 503 to
+  anonymous callers, docs.phosphorus.io is an S3 origin returning AccessDenied (403) to the public,
+  and support.phosphorus.io is an Atlassian Service Desk that 404s. partners.phosphorus.io is a
+  single-page-app catch-all: it answers HTTP 200 with the same ~193KB HTML shell for EVERY
+  /.well-known/* path AND for a random control path, so none of those 200s is a document. No
+  WellKnown or SecurityTxt pointer is emitted, because nothing was actually served.
+hit_count: 0
+soft_404_control:
+- host: https://phosphorus.io
+  path: /this-path-should-not-exist-xyz123
+  status: 404
+  bytes: 290154
+- host: https://partners.phosphorus.io
+  path: /zzz-nonexistent-control-98765
+  status: 200
+  bytes: 193335
+  verdict: catch-all -- every path returns the SPA shell, so 200 does not mean a document exists
+hosts:
+- host: https://phosphorus.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.phosphorus.io
+  note: per-tenant application load balancer; anonymous requests receive 503 Service Temporarily Unavailable
+  documents:
+  - path: /.well-known/security.txt
+    status: 503
+  - path: /.well-known/openid-configuration
+    status: 503
+  - path: /.well-known/oauth-authorization-server
+    status: 503
+  - path: /.well-known/api-catalog
+    status: 503
+  - path: /.well-known/ai-plugin.json
+    status: 503
+  - path: /.well-known/agent-card.json
+    status: 503
+  - path: /.well-known/agent.json
+    status: 503
+- host: https://docs.phosphorus.io
+  note: S3 origin returning AccessDenied to the public; no object is readable anonymously
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: https://support.phosphorus.io
+  note: redirects to phosecure.atlassian.net Service Desk login
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://partners.phosphorus.io
+  note: >-
+    SPA catch-all. Every probed path returned 200 with the same ~193KB HTML shell, including a random
+    control path. These are NOT documents and are recorded here so a later run does not mistake them
+    for a served .well-known surface.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    verdict: html-shell-not-a-document
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    verdict: html-shell-not-a-document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    verdict: html-shell-not-a-document
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    verdict: html-shell-not-a-document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    verdict: html-shell-not-a-document
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    verdict: html-shell-not-a-document
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    verdict: html-shell-not-a-document

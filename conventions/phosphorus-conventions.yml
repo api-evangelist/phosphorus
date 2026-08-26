@@ -1,0 +1,185 @@
+generated: '2026-08-26'
+method: derived
+source: >-
+  openapi/phosphorus-api-openapi.yml -- plus a negative search of phosphorus.io (no developer portal,
+  no public API reference; the human-readable docs sit behind phosecure.atlassian.net)
+note: >-
+  Every statement below is read out of the contract itself. Where the contract is silent the field
+  says so rather than guessing, because Phosphorus publishes no public API reference against which a
+  convention could be confirmed.
+authentication:
+  style: api-key
+  scheme: ApiKeyAuth
+  location: header
+  parameter: X-API-KEY
+  applied: per-operation (all 30 operations declare security ApiKeyAuth)
+  oauth: false
+  scopes: none -- key auth has no scope surface
+  detail: authentication/phosphorus-authentication.yml
+versioning:
+  style: uri-path
+  versions_live:
+  - v2
+  - v3
+  detail: >-
+    Two major versions are served side by side under /api/v2/ and /api/v3/ from one contract, and the
+    split is by capability rather than by generation -- device reads live only in v2 while scan
+    configuration, providers and the Vault live only in v3. operationIds carry the version as a
+    suffix (getDeviceByUUIDv2, createSecretv3), so a client can tell them apart. No version header,
+    no date-based version, and no deprecation of v2 is declared.
+  no_version_header: true
+base_url:
+  style: per-tenant
+  template: https://{tenant}.phosphorus.io
+  detail: >-
+    The contract's servers[] block is the relative "/" -- the spec is served from inside each tenant
+    instance, so the host is the customer's own Phosphorus deployment. Rapid7's Surface Command
+    connector states the same thing, asking operators for a "Base URL for the Phosphorus API" with
+    the example https://example.phosphorus.io.
+pagination:
+  style: limit-offset
+  params:
+  - limit
+  - offset
+  applies_to: >-
+    the device sub-resource reads (alerts, certificates, credentials, data, firmware, logs, scans)
+    and the v3 list endpoints
+  response_fields: >-
+    Not declared. Responses are bare arrays or objects with no total, next, has_more or cursor field,
+    so a client cannot tell from a page whether more rows exist -- it must keep incrementing offset
+    until a short page comes back. getSearchResponse is the one exception: it carries a total.
+  cursor: false
+  defaults_documented: false
+  max_page_size_documented: false
+filtering:
+  query_syntax: >-
+    /api/v2/search takes a q parameter written in the Phosphorus "Search Query Syntax", named in the
+    operation summary but not specified anywhere public.
+  time_range: >-
+    /api/v2/alerts takes startTime and endTime as RFC 3339 date-times and defaults to active alerts
+    in the last 24 hours when they are omitted -- the one documented default in the contract.
+  other:
+  - filter (alerts)
+  - includeLostDevices (alerts)
+  - interrogate (device read; triggers a live device interrogation on a GET)
+  - severity, subtype, name (device alerts)
+field_expansion: none declared
+sparse_fieldsets: none declared
+metadata:
+  detail: >-
+    device.metadata and firmwareObj.metadata are free-form objects on the resource; there is no
+    separate metadata write surface.
+request_id_tracing:
+  supported: unknown
+  detail: No correlation, request-id or trace header is declared in the contract.
+idempotency:
+  supported: false
+  header: null
+  detail: >-
+    No Idempotency-Key header, no idempotency parameter, and no idempotency language anywhere in the
+    contract (zero matches for /idempoten/i across the whole document). Of the eleven write
+    operations, only the two toggles are naturally safe to repeat: enableDynamicScanConfigv3 and
+    disableDynamicScanConfigv3 set a state rather than appending, so re-firing them converges.
+    createDynamicScanConfigv3 and createSecretv3 are POSTs with no dedupe key, so a retried call
+    after a timeout will create a second config or a second secret. NO Idempotency pointer is
+    emitted in apis.yml, because the provider does not support it.
+error_envelope:
+  shape: undeclared
+  detail: >-
+    Every operation declares 400 "Invalid input" with no content block, so the error body has no
+    published shape. See errors/phosphorus-problem-types.yml.
+  rfc9457: false
+rate_limit_signaling:
+  supported: false
+  detail: See rate-limits/phosphorus-rate-limits.yml -- no 429, no Retry-After, no RateLimit headers.
+media_types:
+  request: application/json
+  response: application/json
+reversibility:
+  grade: documented
+  applicable: true
+  detail: >-
+    The API has a real write surface (11 operations across dynamic scans, provider health checks and
+    the Vault) and it publishes reversal paths for part of it, but it states no window for any of
+    them, so this grades `documented` rather than `verified`. Enable/disable is a genuine two-way
+    toggle. Create/delete on a dynamic scan config is a genuine undo. The Vault is the gap that
+    matters: updateSecretv3 explicitly "updates a secret by creating a new version", which means
+    prior versions exist server-side, yet the contract publishes no operation to read or restore an
+    earlier version and no retention period, so an agent that overwrites the wrong credential cannot
+    put it back through this API. createSecretv3 has no delete counterpart at all.
+  surfaces:
+  - operation: createDynamicScanConfigv3
+    write: creates a dynamic scan config
+    reversal: deleteDynamicScanConfigv3
+    reversal_kind: delete
+    window: null
+    window_source: null
+  - operation: enableDynamicScanConfigv3
+    write: enables a dynamic scan config
+    reversal: disableDynamicScanConfigv3
+    reversal_kind: toggle
+    window: null
+    window_source: null
+  - operation: disableDynamicScanConfigv3
+    write: disables a dynamic scan config
+    reversal: enableDynamicScanConfigv3
+    reversal_kind: toggle
+    window: null
+    window_source: null
+  - operation: updateDynamicScanConfigv3
+    write: overwrites a dynamic scan config
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: No prior-version read and no undo; the previous configuration is not retrievable via the API.
+  - operation: deleteDynamicScanConfigv3
+    write: deletes a dynamic scan config
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: No restore, no soft-delete flag, no trash surface declared.
+  - operation: createSecretv3
+    write: creates a secret in the Phosphorus Vault
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: No delete-secret operation exists in the contract.
+  - operation: updateSecretv3
+    write: writes a new version of a Vault secret
+    reversal: null
+    reversal_kind: versioned-but-no-restore
+    window: null
+    note: >-
+      The operation summary states it creates a new version, so history is kept server-side, but no
+      operation reads or restores a prior version and no retention window is stated.
+  - operation: updateNativeVaultToDefaultv3
+    write: sets the Phosphorus Vault as the tenant default
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: Tenant-wide configuration change with no published inverse operation.
+  - operation: submitDynamicScanDatav3
+    write: submits scan data against a config
+    reversal: null
+    reversal_kind: none
+    window: null
+  - operation: performHealthCheckv3
+    write: triggers a provider health check
+    reversal: na
+    reversal_kind: transient
+    window: null
+    note: Side-effecting but not persistent state a caller would need to undo.
+  - operation: performAllHealthChecksv3
+    write: triggers a health check for every provider
+    reversal: na
+    reversal_kind: transient
+    window: null
+dry_run_mode:
+  supported: false
+  detail: No dry-run, preview, validate-only or simulate parameter is declared on any write operation.
+cross_links:
+  errors: errors/phosphorus-problem-types.yml
+  lifecycle: lifecycle/phosphorus-lifecycle.yml
+  authentication: authentication/phosphorus-authentication.yml
+  rate_limits: rate-limits/phosphorus-rate-limits.yml
+  data_model: data-model/phosphorus-data-model.yml
