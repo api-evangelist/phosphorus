@@ -30,31 +30,16 @@ tags:
 - Critical Infrastructure
 - Device Management
 apis:
-- name: Phosphorus API
-  description: >-
-    REST API for the Phosphorus xIoT security platform, spanning two live versions. The v2 surface reads devices and
-    their alerts, certificates, credentials, data provenance, firmware, logs and scans, plus sites, tenant-wide alerts,
-    and a cross-entity search endpoint. The v3 surface manages dynamic scan configurations, integration providers and
-    their health checks and credentials, excluded devices, and secrets in the Phosphorus Vault. Every operation is
-    authenticated with an X-API-KEY header. The API is deployed per tenant, so the base URL is the customer's own
-    Phosphorus instance hostname; Phosphorus does not publish a public API reference or developer portal, and the
-    human-readable documentation sits behind the customer support portal.
+- aid: phosphorus:phosphorus-alerts-api
+  name: Phosphorus Alerts API
+  description: The Alerts API from Phosphorus — 1 operation(s) for alerts.
   humanURL: https://phosphorus.io/platform/
   baseURL: https://{tenant}.phosphorus.io
   tags:
-  - Cybersecurity
-  - xIoT Security
-  - IoT Security
-  - OT Security
-  - Asset Discovery
-  - Vulnerability Management
-  - Firmware Management
-  - Certificate Management
-  - Credential Management
-  - Device Management
+  - Alerts
   properties:
   - type: OpenAPI
-    url: openapi/phosphorus-api-openapi.yml
+    url: openapi/phosphorus-alerts-api-openapi.yml
   - type: Authentication
     url: authentication/phosphorus-authentication.yml
   - type: Conventions
@@ -63,18 +48,158 @@ apis:
     url: errors/phosphorus-problem-types.yml
   - type: DataModel
     url: data-model/phosphorus-data-model.yml
-  - type: Overlay
-    url: overlays/phosphorus-api-overlay.yaml
   - type: RateLimits
     url: rate-limits/phosphorus-rate-limits.yml
-  - type: AgentSkill
-    url: skills/_index.yml
+- aid: phosphorus:phosphorus-device-api
+  name: Phosphorus Device API
+  description: The Device API from Phosphorus — 8 operation(s) for device.
+  humanURL: https://phosphorus.io/platform/
+  baseURL: https://{tenant}.phosphorus.io
+  tags:
+  - Device
+  properties:
+  - type: OpenAPI
+    url: openapi/phosphorus-device-api-openapi.yml
+  - type: Authentication
+    url: authentication/phosphorus-authentication.yml
+  - type: Conventions
+    url: conventions/phosphorus-conventions.yml
+  - type: ErrorCatalog
+    url: errors/phosphorus-problem-types.yml
+  - type: DataModel
+    url: data-model/phosphorus-data-model.yml
+  - type: RateLimits
+    url: rate-limits/phosphorus-rate-limits.yml
+- aid: phosphorus:phosphorus-devices-api
+  name: Phosphorus Devices API
+  description: The Devices API from Phosphorus — 1 operation(s) for devices.
+  humanURL: https://phosphorus.io/platform/
+  baseURL: https://{tenant}.phosphorus.io
+  tags:
+  - Devices
+  properties:
+  - type: OpenAPI
+    url: openapi/phosphorus-devices-api-openapi.yml
+  - type: Authentication
+    url: authentication/phosphorus-authentication.yml
+  - type: Conventions
+    url: conventions/phosphorus-conventions.yml
+  - type: ErrorCatalog
+    url: errors/phosphorus-problem-types.yml
+  - type: DataModel
+    url: data-model/phosphorus-data-model.yml
+  - type: RateLimits
+    url: rate-limits/phosphorus-rate-limits.yml
+- aid: phosphorus:phosphorus-dynamic-scans-api
+  name: Phosphorus Dynamic Scans API
+  description: The Dynamic Scans API from Phosphorus — 5 operation(s) for dynamic scans.
+  humanURL: https://phosphorus.io/platform/
+  baseURL: https://{tenant}.phosphorus.io
+  tags:
+  - Dynamic Scans
+  properties:
+  - type: OpenAPI
+    url: openapi/phosphorus-dynamic-scans-api-openapi.yml
+  - type: Authentication
+    url: authentication/phosphorus-authentication.yml
+  - type: Conventions
+    url: conventions/phosphorus-conventions.yml
+  - type: ErrorCatalog
+    url: errors/phosphorus-problem-types.yml
+  - type: DataModel
+    url: data-model/phosphorus-data-model.yml
+  - type: RateLimits
+    url: rate-limits/phosphorus-rate-limits.yml
+- aid: phosphorus:phosphorus-providers-api
+  name: Phosphorus Providers API
+  description: The Providers API from Phosphorus — 5 operation(s) for providers.
+  humanURL: https://phosphorus.io/platform/
+  baseURL: https://{tenant}.phosphorus.io
+  tags:
+  - Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/phosphorus-providers-api-openapi.yml
+  - type: Authentication
+    url: authentication/phosphorus-authentication.yml
+  - type: Conventions
+    url: conventions/phosphorus-conventions.yml
+  - type: ErrorCatalog
+    url: errors/phosphorus-problem-types.yml
+  - type: DataModel
+    url: data-model/phosphorus-data-model.yml
+  - type: RateLimits
+    url: rate-limits/phosphorus-rate-limits.yml
+- aid: phosphorus:phosphorus-search-api
+  name: Phosphorus Search API
+  description: The Search API from Phosphorus — 1 operation(s) for search.
+  humanURL: https://phosphorus.io/platform/
+  baseURL: https://{tenant}.phosphorus.io
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/phosphorus-search-api-openapi.yml
+  - type: Authentication
+    url: authentication/phosphorus-authentication.yml
+  - type: Conventions
+    url: conventions/phosphorus-conventions.yml
+  - type: ErrorCatalog
+    url: errors/phosphorus-problem-types.yml
+  - type: DataModel
+    url: data-model/phosphorus-data-model.yml
+  - type: RateLimits
+    url: rate-limits/phosphorus-rate-limits.yml
+- aid: phosphorus:phosphorus-sites-api
+  name: Phosphorus Sites API
+  description: The Sites API from Phosphorus — 1 operation(s) for sites.
+  humanURL: https://phosphorus.io/platform/
+  baseURL: https://{tenant}.phosphorus.io
+  tags:
+  - Sites
+  properties:
+  - type: OpenAPI
+    url: openapi/phosphorus-sites-api-openapi.yml
+  - type: Authentication
+    url: authentication/phosphorus-authentication.yml
+  - type: Conventions
+    url: conventions/phosphorus-conventions.yml
+  - type: ErrorCatalog
+    url: errors/phosphorus-problem-types.yml
+  - type: DataModel
+    url: data-model/phosphorus-data-model.yml
+  - type: RateLimits
+    url: rate-limits/phosphorus-rate-limits.yml
+- aid: phosphorus:phosphorus-vault-api
+  name: Phosphorus Vault API
+  description: The Vault API from Phosphorus — 2 operation(s) for vault.
+  humanURL: https://phosphorus.io/platform/
+  baseURL: https://{tenant}.phosphorus.io
+  tags:
+  - Vault
+  properties:
+  - type: OpenAPI
+    url: openapi/phosphorus-vault-api-openapi.yml
+  - type: Authentication
+    url: authentication/phosphorus-authentication.yml
+  - type: Conventions
+    url: conventions/phosphorus-conventions.yml
+  - type: ErrorCatalog
+    url: errors/phosphorus-problem-types.yml
+  - type: DataModel
+    url: data-model/phosphorus-data-model.yml
+  - type: RateLimits
+    url: rate-limits/phosphorus-rate-limits.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/phosphorus-api-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
 - type: Website
   url: https://phosphorus.io/
 - type: Support
