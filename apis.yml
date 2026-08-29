@@ -9,6 +9,18 @@ description: >-
   (v2 and v3) described by an OpenAPI 3.0.0 contract that Phosphorus serves from each tenant instance at
   /api/swagger/public/swagger.json, covering devices, alerts, firmware, certificates, credentials, sites, search,
   dynamic scans, integration providers, and the Phosphorus Vault, authenticated with an X-API-KEY request header.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://phosphorus.io/wp-content/uploads/2026/01/300x300.jpg
 url: https://raw.githubusercontent.com/api-evangelist/phosphorus/refs/heads/main/apis.yml
 x-type: company
