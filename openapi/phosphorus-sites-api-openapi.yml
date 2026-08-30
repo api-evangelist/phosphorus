@@ -1,0 +1,92 @@
+openapi: 3.2.0
+info:
+  description: Swagger documentation for the Phosphorus API
+  version: 2.0.0
+  title: Phosphorus Sites API
+servers:
+- url: /
+  description: Server
+tags:
+- name: Sites
+paths:
+  /api/v2/sites/{id}:
+    get:
+      tags:
+      - Sites
+      summary: Get a site
+      description: ''
+      operationId: getSitev2
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+components:
+  schemas:
+    SiteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        host:
+          type: string
+        port:
+          type: integer
+        hbPort:
+          type: integer
+        name:
+          type: string
+        lastSeen:
+          type: string
+          format: date-time
+        online:
+          type: boolean
+        default:
+          type: boolean
+        isLocal:
+          type: boolean
+        acceptingScans:
+          type: boolean
+        smMode:
+          type: string
+        config:
+          type: object
+          properties: {}
+          additionalProperties: false
+        smVersion:
+          type: string
+        smHostInfo:
+          type: object
+          properties: {}
+          additionalProperties: false
+        addr:
+          type: string
+      required:
+      - id
+      - host
+      - port
+      - hbPort
+      - name
+      - online
+      - default
+      - isLocal
+      - acceptingScans
+      additionalProperties: false
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

@@ -1,0 +1,127 @@
+openapi: 3.2.0
+info:
+  description: Swagger documentation for the Phosphorus API
+  version: 2.0.0
+  title: Phosphorus Devices API
+servers:
+- url: /
+  description: Server
+tags:
+- name: Devices
+paths:
+  /api/v3/devices/excluded:
+    get:
+      tags:
+      - Devices
+      summary: Returns excluded devices, queryable by date, jobId
+      description: ''
+      operationId: getExcludedDevicesv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: jobId
+        in: query
+        required: false
+      - schema:
+          type: number
+          format: float
+          minimum: 1
+          default: 1000
+        name: limit
+        in: query
+        required: false
+      - schema:
+          type: number
+          format: float
+          minimum: 1
+        name: offset
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: startDate
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: endDate
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: sortBy
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: sortDir
+        in: query
+        required: false
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rows:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/excludedDevicesObject'
+                  meta:
+                    type: object
+                    properties:
+                      total_rows:
+                        type: number
+                        format: float
+                    required:
+                    - total_rows
+                    additionalProperties: false
+                required:
+                - rows
+                additionalProperties: false
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+components:
+  schemas:
+    excludedDevicesObject:
+      type: object
+      properties:
+        addr:
+          type: string
+        created:
+          type: string
+        model:
+          type: string
+        manufacturer:
+          type: string
+        type:
+          type: string
+        mac:
+          type: string
+        jobId:
+          type: string
+        siteId:
+          type: string
+      required:
+      - addr
+      - created
+      - model
+      - manufacturer
+      - type
+      - mac
+      - jobId
+      - siteId
+      additionalProperties: false
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

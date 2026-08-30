@@ -1,0 +1,827 @@
+openapi: 3.2.0
+info:
+  description: Swagger documentation for the Phosphorus API
+  version: 2.0.0
+  title: Phosphorus Device API
+servers:
+- url: /
+  description: Server
+tags:
+- name: Device
+paths:
+  /api/v2/device/{uuid}:
+    get:
+      tags:
+      - Device
+      summary: Return the current Device with a uuid specified in the URL, and optionally perform an interrogation.
+      description: ''
+      operationId: getDeviceByUUIDv2
+      deprecated: false
+      parameters:
+      - schema:
+          type: boolean
+        name: interrogate
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getDeviceUUIDResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v2/device/{uuid}/alerts:
+    get:
+      tags:
+      - Device
+      summary: Get a list of available alert objects for a specific device.
+      description: ''
+      operationId: getDeviceAlertsByUUIDv2
+      deprecated: false
+      parameters:
+      - schema:
+          type: integer
+        name: limit
+        in: query
+        required: false
+      - schema:
+          type: integer
+        name: offset
+        in: query
+        required: false
+      - schema:
+          type:
+          - string
+          - 'null'
+        name: name
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: subtype
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: severity
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: created
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: last_seen
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: resolved_at
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: created_before
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: created_after
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getDeviceAlertsUUIDResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v2/device/{uuid}/certificates:
+    get:
+      tags:
+      - Device
+      summary: Get the available certificates for a specific device.
+      description: ''
+      operationId: getDeviceCertificateByUUIDv2
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v2/device/{uuid}/credentials:
+    get:
+      tags:
+      - Device
+      summary: Get the available credentials for a specific device.
+      description: ''
+      operationId: getDeviceCredentialByUUIDv2
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v2/device/{uuid}/data:
+    get:
+      tags:
+      - Device
+      summary: Get a list of available data provenance objects for a specific device.
+      description: ''
+      operationId: getDeviceDataByUUIDv2
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getDeviceDataUUIDResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v2/device/{uuid}/firmware:
+    get:
+      tags:
+      - Device
+      summary: Get a list of available firmware objects for a specific device. No search, or filters, just a list of the firmware for the device. The item in the array that is installed will return current:true in the JSON
+      description: ''
+      operationId: getDeviceFirmwareByUUIDv2
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v2/device/{uuid}/logs:
+    get:
+      tags:
+      - Device
+      summary: Get a list of available log objects for a specific device.
+      description: ''
+      operationId: getDeviceLogsByUUIDv2
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: limit
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: offset
+        in: query
+        required: false
+      - schema:
+          type:
+          - string
+          - 'null'
+        name: message
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: addr
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: email
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: created_before
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: created_after
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getDeviceLogsUUIDResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v2/device/{uuid}/scans:
+    get:
+      tags:
+      - Device
+      summary: Get a list of available scans for a specific device.
+      description: ''
+      operationId: getDeviceScansByUUIDv2
+      deprecated: false
+      parameters:
+      - schema:
+          type: number
+          format: float
+        name: limit
+        in: query
+        required: false
+      - schema:
+          type: number
+          format: float
+        name: offset
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: job_id
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: created_before
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: created_after
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getDeviceScansUUIDResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+components:
+  schemas:
+    getDeviceLogsUUIDResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/logEntry'
+        total:
+          type: number
+          format: float
+        limit:
+          type: number
+          format: float
+        offset:
+          type: number
+          format: float
+        orderBy:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - total
+      - limit
+      - offset
+      additionalProperties: false
+    logEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        message:
+          type: string
+        created:
+          type: string
+          format: date-time
+        device:
+          type: object
+          properties:
+            addr:
+              type: string
+            model:
+              type: string
+            manufacturer:
+              type: string
+          required:
+          - addr
+          additionalProperties: false
+        user:
+          type: string
+      required:
+      - id
+      - message
+      - created
+      additionalProperties: false
+    getDeviceAlertsUUIDResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/_alert'
+        total:
+          type: number
+          format: float
+        suppressedAlerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/_alert'
+        suppressedAlertsCount:
+          type: number
+          format: float
+        limit:
+          type: number
+          format: float
+        offset:
+          type: number
+          format: float
+        orderBy:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - total
+      - suppressedAlerts
+      - suppressedAlertsCount
+      - limit
+      - offset
+      additionalProperties: false
+    _alert:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        severity:
+          type: string
+        created:
+          type: string
+          format: date-time
+        subtype:
+          type: string
+        data:
+          type: object
+          properties: {}
+          additionalProperties: false
+        global_alert:
+          type: boolean
+        custom_alert:
+          type:
+          - boolean
+          - 'null'
+        device_alert:
+          type:
+          - boolean
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - severity
+      - created
+      - subtype
+      - global_alert
+      additionalProperties: false
+    device:
+      type: object
+      properties:
+        id:
+          type: string
+        addr:
+          type: string
+        hostname:
+          type: string
+        mac:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        type:
+          type: string
+        icon:
+          type: string
+        firmware:
+          type: string
+        availableFirmware:
+          type: array
+          items:
+            $ref: '#/components/schemas/firmwareObj'
+        canChangePassword:
+          type: boolean
+        canUpdate:
+          type: boolean
+        isUpdating:
+          type: boolean
+        lastInterrogation:
+          type: string
+          format: date-time
+        lastInterrogationAttempt:
+          type: string
+          format: date-time
+        lastInterrogationResult:
+          type: boolean
+        lastInterrogationMetadataVersion:
+          type: string
+        data:
+          type: object
+          properties: {}
+          additionalProperties: false
+        alerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/_alert'
+        credentials:
+          type: array
+          items: {}
+        passwordPolicy:
+          type: object
+          properties:
+            length:
+              type: number
+              format: float
+            strict:
+              type: boolean
+            exclude:
+              type: string
+            numbers:
+              type: boolean
+            symbols:
+              type: boolean
+            lowercase:
+              type: boolean
+            uppercase:
+              type: boolean
+            excludeSimilarCharacters:
+              type: boolean
+          required:
+          - length
+          - strict
+          - exclude
+          - numbers
+          - symbols
+          - lowercase
+          - uppercase
+          - excludeSimilarCharacters
+          additionalProperties: false
+        supported:
+          type: boolean
+        created:
+          type: string
+        modified:
+          type: string
+        lost:
+          type: boolean
+        unAuthId:
+          type: string
+        enroll:
+          type: boolean
+        tcpPorts:
+          type: array
+          items:
+            type: string
+        udpPorts:
+          type: array
+          items:
+            type: string
+        lastScanExtraction:
+          type: object
+          properties: {}
+          additionalProperties: false
+        lastScan:
+          type: string
+          format: date-time
+        siteId:
+          type: string
+        site:
+          $ref: '#/components/schemas/Site'
+        suppressedAlerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/_alert'
+        tags:
+          type: array
+          items: {}
+        credentialsRequired:
+          type: boolean
+        hasDefaultCredentials:
+          type: boolean
+        interrogated:
+          type: boolean
+        invalidCredentials:
+          type: boolean
+        outOfDateFirmware:
+          type: boolean
+        allowChangePassword:
+          type: boolean
+        manageable:
+          type: boolean
+        discontinued:
+          type: boolean
+        vulnerable:
+          type: boolean
+        name:
+          type: string
+        modelFile:
+          type: string
+        metadata:
+          type: object
+          properties:
+            loginInstructions:
+              type: string
+          additionalProperties: false
+      required:
+      - id
+      - addr
+      - mac
+      - manufacturer
+      - model
+      - type
+      - icon
+      - firmware
+      - canChangePassword
+      - canUpdate
+      - lastInterrogationAttempt
+      - lastInterrogationResult
+      - supported
+      - created
+      - modified
+      - lost
+      - unAuthId
+      - enroll
+      - lastScan
+      - siteId
+      - credentialsRequired
+      - hasDefaultCredentials
+      - interrogated
+      - invalidCredentials
+      - outOfDateFirmware
+      - allowChangePassword
+      - manageable
+      - discontinued
+      - vulnerable
+      - name
+      - modelFile
+      additionalProperties: false
+    firmwareObj:
+      type: object
+      properties:
+        id:
+          type: number
+          format: float
+        md5:
+          type: string
+        url:
+          type: string
+        cves:
+          type: array
+          items:
+            type: string
+        note:
+          type: string
+        size:
+          type: number
+          format: float
+        crc32c:
+          type: string
+        models:
+          type: array
+          items:
+            type: string
+        sha256:
+          type: string
+        current:
+          type: boolean
+        upgrade:
+          type: boolean
+        version:
+          type: string
+        filename:
+          type: string
+        metadata:
+          type: array
+          items: {}
+        severity:
+          type: string
+        canUpdate:
+          type: boolean
+        downgrade:
+          type: boolean
+        userManual:
+          type: string
+        vulnerable:
+          type: boolean
+        releaseDate:
+          type: string
+          format: date-time
+        releaseNotes:
+          type: string
+      required:
+      - id
+      - md5
+      - url
+      - note
+      - size
+      - crc32c
+      - sha256
+      - current
+      - upgrade
+      - version
+      - filename
+      - severity
+      - canUpdate
+      - downgrade
+      - userManual
+      - vulnerable
+      - releaseDate
+      - releaseNotes
+      additionalProperties: false
+    getDeviceScansUUIDResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              items:
+                type: string
+              job_id:
+                type: string
+              created:
+                type: string
+                format: date-time
+              data:
+                type: object
+                properties: {}
+                additionalProperties: false
+              legacy:
+                type: boolean
+              bulk_action_id:
+                type: string
+            required:
+            - items
+            - legacy
+            - bulk_action_id
+            additionalProperties: false
+      additionalProperties: false
+    getDeviceUUIDResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        device:
+          $ref: '#/components/schemas/device'
+      required:
+      - success
+      additionalProperties: false
+    getDeviceDataUUIDResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties: {}
+            additionalProperties: false
+        total:
+          type: number
+          format: float
+      required:
+      - items
+      - total
+      additionalProperties: false
+    Site:
+      type: object
+      properties:
+        id:
+          type: string
+        host:
+          type: string
+        port:
+          type: integer
+        hbPort:
+          type: integer
+        name:
+          type: string
+        lastSeen:
+          type: string
+          format: date-time
+        online:
+          type: boolean
+        default:
+          type: boolean
+        isLocal:
+          type: boolean
+        acceptingScans:
+          type: boolean
+        smMode:
+          type: string
+        config:
+          type: object
+          properties: {}
+          additionalProperties: false
+        smVersion:
+          type: string
+        smHostInfo:
+          type: object
+          properties: {}
+          additionalProperties: false
+        addr:
+          type: string
+      required:
+      - id
+      - host
+      - port
+      - hbPort
+      - name
+      - online
+      - default
+      - isLocal
+      - acceptingScans
+      additionalProperties: false
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

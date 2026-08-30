@@ -1,0 +1,122 @@
+openapi: 3.2.0
+info:
+  description: Swagger documentation for the Phosphorus API
+  version: 2.0.0
+  title: Phosphorus Providers API
+servers:
+- url: /
+  description: Server
+tags:
+- name: Providers
+paths:
+  /api/v3/providers:
+    get:
+      tags:
+      - Providers
+      summary: Gets all providers
+      description: ''
+      operationId: getProvidersv3
+      deprecated: false
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v3/providers/{id}:
+    get:
+      tags:
+      - Providers
+      summary: Get provider by uuid
+      description: ''
+      operationId: getProviderByIdv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v3/providers/{id}/credentials:
+    get:
+      tags:
+      - Providers
+      summary: Returns a list of credentials available to assign
+      description: ''
+      operationId: listProviderCredentialsv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v3/providers/{id}/health-check:
+    post:
+      tags:
+      - Providers
+      summary: Performs provider health check
+      description: ''
+      operationId: performHealthCheckv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v3/providers/health-check:
+    post:
+      tags:
+      - Providers
+      summary: Performs a health check for every provider with a low concurrency
+      description: ''
+      operationId: performAllHealthChecksv3
+      deprecated: false
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

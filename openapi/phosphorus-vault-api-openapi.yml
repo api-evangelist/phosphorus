@@ -1,0 +1,253 @@
+openapi: 3.2.0
+info:
+  description: Swagger documentation for the Phosphorus API
+  version: 2.0.0
+  title: Phosphorus Vault API
+servers:
+- url: /
+  description: Server
+tags:
+- name: Vault
+paths:
+  /api/v3/vault:
+    post:
+      tags:
+      - Vault
+      summary: Creates a secret in the Phosphorus Vault
+      description: ''
+      operationId: createSecretv3
+      deprecated: false
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createSecretBody'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createSecretResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+    get:
+      tags:
+      - Vault
+      summary: Retrieve a list of secrets from the Phosphorus Vault
+      description: ''
+      operationId: listSecretsv3
+      deprecated: false
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSecretsResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+    put:
+      tags:
+      - Vault
+      summary: Updates Phosphorus Vault to default
+      description: ''
+      operationId: updateNativeVaultToDefaultv3
+      deprecated: false
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateVaultToDefaultBody'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSecretsResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v3/vault/{id}:
+    put:
+      tags:
+      - Vault
+      summary: Updates a secret in the Phosphorus Vault by creating a new version
+      description: ''
+      operationId: updateSecretv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateSecretBody'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateSecretResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+    get:
+      tags:
+      - Vault
+      summary: Retrieve a specific secret out of the Phosphorus Vault
+      description: ''
+      operationId: getSecretv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getReportDataResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+components:
+  schemas:
+    getReportDataResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        externalId:
+          type: string
+        provider:
+          type: string
+        version:
+          type: string
+        login:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - externalId
+      - provider
+      - version
+      - login
+      - password
+      additionalProperties: false
+    updateSecretBody:
+      type: object
+      properties:
+        login:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+      required:
+      - login
+      - password
+      additionalProperties: false
+    updateSecretResponse:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        version:
+          type:
+          - string
+          - 'null'
+      required:
+      - name
+      - version
+      additionalProperties: false
+    updateVaultToDefaultBody:
+      type: object
+      properties:
+        isDefault:
+          type: boolean
+      required:
+      - isDefault
+      additionalProperties: false
+    createSecretResponse:
+      type: object
+      properties:
+        secret:
+          type:
+          - string
+          - 'null'
+      required:
+      - secret
+      additionalProperties: false
+    createSecretBody:
+      type: object
+      properties:
+        login:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        serialNumber:
+          type:
+          - string
+          - 'null'
+      required:
+      - login
+      - password
+      - name
+      additionalProperties: false
+    getSecretsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          externalId:
+            type: string
+        required:
+        - name
+        - externalId
+        additionalProperties: false
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

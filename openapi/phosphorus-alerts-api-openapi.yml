@@ -1,0 +1,115 @@
+openapi: 3.2.0
+info:
+  description: Swagger documentation for the Phosphorus API
+  version: 2.0.0
+  title: Phosphorus Alerts API
+servers:
+- url: /
+  description: Server
+tags:
+- name: Alerts
+paths:
+  /api/v2/alerts:
+    get:
+      tags:
+      - Alerts
+      summary: Get all alerts within a specified time range. Defaults to any active alerts in the last 24 hours.
+      description: ''
+      operationId: getAlertsv2
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+          format: date-time
+        name: startTime
+        in: query
+        required: false
+      - schema:
+          type: string
+          format: date-time
+        name: endTime
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: filter
+        in: query
+        required: false
+      - schema:
+          type: string
+        name: includeLostDevices
+        in: query
+        required: false
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAlertsResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+components:
+  schemas:
+    getAlertsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          site_id:
+            type: string
+          site_name:
+            type: string
+          addr:
+            type: string
+          manufacturer:
+            type: string
+          model:
+            type: string
+          lost:
+            type: boolean
+          device_type:
+            type: string
+          alert_name:
+            type: string
+          alert_created_at:
+            type: string
+            format: date-time
+          alert_last_seen:
+            type: string
+            format: date-time
+          alert_resolved_at:
+            type: string
+            format: date-time
+          alert_severity:
+            type: string
+          alert_subtype:
+            type: string
+          alert_data:
+            type: object
+            properties: {}
+            additionalProperties: false
+        required:
+        - id
+        - site_id
+        - site_name
+        - addr
+        - manufacturer
+        - model
+        - lost
+        - device_type
+        - alert_name
+        - alert_created_at
+        - alert_last_seen
+        - alert_severity
+        - alert_subtype
+        additionalProperties: false
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

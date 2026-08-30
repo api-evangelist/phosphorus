@@ -1,0 +1,588 @@
+openapi: 3.2.0
+info:
+  description: Swagger documentation for the Phosphorus API
+  version: 2.0.0
+  title: Phosphorus Dynamic Scans API
+servers:
+- url: /
+  description: Server
+tags:
+- name: Dynamic Scans
+paths:
+  /api/v3/dynamic-scans:
+    get:
+      tags:
+      - Dynamic Scans
+      summary: List all dynamic scan configs
+      description: ''
+      operationId: listDynamicScanConfigsv3
+      deprecated: false
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListDynamicScanConfigsResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+    post:
+      tags:
+      - Dynamic Scans
+      summary: Create a dynamic scan config
+      description: ''
+      operationId: createDynamicScanConfigv3
+      deprecated: false
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDynamicScanConfigBody'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DynamicScanConfigResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v3/dynamic-scans/{id}:
+    get:
+      tags:
+      - Dynamic Scans
+      summary: Get a dynamic scan config
+      description: ''
+      operationId: getDynamicScanConfigv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+          description: Unique identifier of a dynamic scan configuration
+        name: id
+        in: path
+        description: Unique identifier of a dynamic scan configuration
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DynamicScanConfigResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+    put:
+      tags:
+      - Dynamic Scans
+      summary: Update a dynamic scan config
+      description: ''
+      operationId: updateDynamicScanConfigv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+          description: Unique identifier of a dynamic scan configuration
+        name: id
+        in: path
+        description: Unique identifier of a dynamic scan configuration
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDynamicScanConfigBody'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DynamicScanConfigResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+    delete:
+      tags:
+      - Dynamic Scans
+      summary: Delete a dynamic scan config
+      description: ''
+      operationId: deleteDynamicScanConfigv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+          description: Unique identifier of a dynamic scan configuration
+        name: id
+        in: path
+        description: Unique identifier of a dynamic scan configuration
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v3/dynamic-scans/data:
+    post:
+      tags:
+      - Dynamic Scans
+      summary: Submit data for a dynamic scan config
+      description: ''
+      operationId: submitDynamicScanDatav3
+      deprecated: false
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DynamicScanSubmissionData'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DynamicScanSubmissionResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v3/dynamic-scans/disable/{id}:
+    post:
+      tags:
+      - Dynamic Scans
+      summary: Disable a dynamic scan config
+      description: ''
+      operationId: disableDynamicScanConfigv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+          description: Unique identifier of a dynamic scan configuration
+        name: id
+        in: path
+        description: Unique identifier of a dynamic scan configuration
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+  /api/v3/dynamic-scans/enable/{id}:
+    post:
+      tags:
+      - Dynamic Scans
+      summary: Enable a dynamic scan config
+      description: ''
+      operationId: enableDynamicScanConfigv3
+      deprecated: false
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+          description: Unique identifier of a dynamic scan configuration
+        name: id
+        in: path
+        description: Unique identifier of a dynamic scan configuration
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+components:
+  schemas:
+    DynamicScanConfig:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of a dynamic scan configuration
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Name of the dynamic scan config
+        description:
+          type: string
+          description: Description of the dynamic scan config
+        siteId:
+          type: string
+          format: uuid
+          description: Site ID associated with the dynamic scan config
+        providerId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        config:
+          type: object
+          properties:
+            excludedNetworks:
+              type: array
+              items:
+                type: string
+            limit:
+              type: number
+              format: float
+            lookBackHours:
+              type: number
+              format: float
+            schedule:
+              type: object
+              properties:
+                tz:
+                  type: string
+                cron:
+                  type: string
+              required:
+              - tz
+              - cron
+              additionalProperties: false
+          required:
+          - excludedNetworks
+          - limit
+          - lookBackHours
+          - schedule
+          additionalProperties: false
+          description: Dynamic scan configuration details
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Update timestamp
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: User ID associated with the dynamic scan config
+        siteName:
+          type: string
+          description: Name of the site associated with the dynamic scan config
+        providerName:
+          type:
+          - string
+          - 'null'
+          description: Name of the provider associated with the dynamic scan config
+        enabled:
+          type: boolean
+        metrics:
+          $ref: '#/components/schemas/DynamicScanConfigMetrics'
+        lastSuccessfulScan:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: ID of the last successful scan
+            completedAt:
+              type: string
+              format: date-time
+              description: Completed timestamp of the last successful scan
+          additionalProperties: false
+      required:
+      - id
+      - name
+      - siteId
+      - config
+      - siteName
+      - enabled
+      additionalProperties: false
+    DynamicScanSubmissionData:
+      type: object
+      properties:
+        scanConfigId:
+          type: string
+          format: uuid
+          description: Unique identifier of a dynamic scan configuration
+        networks:
+          type: array
+          items:
+            type: string
+            description: Network to scan
+          minItems: 1
+          description: List of networks to scan
+      required:
+      - scanConfigId
+      - networks
+      additionalProperties: false
+    CreateDynamicScanConfigBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Name of the dynamic scan config
+        description:
+          type: string
+          description: Description of the dynamic scan config
+        siteId:
+          type: string
+          format: uuid
+          description: Site ID associated with the dynamic scan config
+        providerId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        config:
+          type: object
+          properties:
+            excludedNetworks:
+              type: array
+              items:
+                type: string
+            limit:
+              type: number
+              format: float
+            lookBackHours:
+              type: number
+              format: float
+            schedule:
+              type: object
+              properties:
+                tz:
+                  type: string
+                cron:
+                  type: string
+              required:
+              - tz
+              - cron
+              additionalProperties: false
+          required:
+          - excludedNetworks
+          - limit
+          - lookBackHours
+          - schedule
+          additionalProperties: false
+          description: Dynamic scan configuration details
+      required:
+      - name
+      - siteId
+      - config
+      additionalProperties: false
+    UpdateDynamicScanConfigBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Name of the dynamic scan config
+        description:
+          type: string
+          description: Description of the dynamic scan config
+        siteId:
+          type: string
+          format: uuid
+          description: Site ID associated with the dynamic scan config
+        providerId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        config:
+          type: object
+          properties:
+            excludedNetworks:
+              type: array
+              items:
+                type: string
+            limit:
+              type: number
+              format: float
+            lookBackHours:
+              type: number
+              format: float
+            schedule:
+              type: object
+              properties:
+                tz:
+                  type: string
+                cron:
+                  type: string
+              required:
+              - tz
+              - cron
+              additionalProperties: false
+          required:
+          - excludedNetworks
+          - limit
+          - lookBackHours
+          - schedule
+          additionalProperties: false
+          description: Dynamic scan configuration details
+      required:
+      - name
+      - siteId
+      - config
+      additionalProperties: false
+    ListDynamicScanConfigsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/DynamicScanConfig'
+    DynamicScanSubmissionResponse:
+      type: object
+      properties:
+        submittedAddresses:
+          type: number
+          format: float
+          description: Number of network addresses submitted
+        invalidAddresses:
+          type: number
+          format: float
+          description: Number of invalid network addresses that were ignored
+      required:
+      - submittedAddresses
+      - invalidAddresses
+      additionalProperties: false
+    DynamicScanConfigResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of a dynamic scan configuration
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Name of the dynamic scan config
+        description:
+          type: string
+          description: Description of the dynamic scan config
+        siteId:
+          type: string
+          format: uuid
+          description: Site ID associated with the dynamic scan config
+        providerId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        config:
+          type: object
+          properties:
+            excludedNetworks:
+              type: array
+              items:
+                type: string
+            limit:
+              type: number
+              format: float
+            lookBackHours:
+              type: number
+              format: float
+            schedule:
+              type: object
+              properties:
+                tz:
+                  type: string
+                cron:
+                  type: string
+              required:
+              - tz
+              - cron
+              additionalProperties: false
+          required:
+          - excludedNetworks
+          - limit
+          - lookBackHours
+          - schedule
+          additionalProperties: false
+          description: Dynamic scan configuration details
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Update timestamp
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: User ID associated with the dynamic scan config
+        siteName:
+          type: string
+          description: Name of the site associated with the dynamic scan config
+        providerName:
+          type:
+          - string
+          - 'null'
+          description: Name of the provider associated with the dynamic scan config
+        enabled:
+          type: boolean
+        metrics:
+          $ref: '#/components/schemas/DynamicScanConfigMetrics'
+        lastSuccessfulScan:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: ID of the last successful scan
+            completedAt:
+              type: string
+              format: date-time
+              description: Completed timestamp of the last successful scan
+          additionalProperties: false
+      required:
+      - id
+      - name
+      - siteId
+      - config
+      - siteName
+      - enabled
+      additionalProperties: false
+    DynamicScanConfigMetrics:
+      type: object
+      properties:
+        totalIPsScanned:
+          type: number
+          format: float
+          description: Total number of IPs scanned
+        totalScanRequests:
+          type: number
+          format: float
+          description: Total number of scan data submissions received
+      additionalProperties: false
+      description: Dynamic scan configuration metrics
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

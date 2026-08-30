@@ -1,0 +1,358 @@
+openapi: 3.2.0
+info:
+  description: Swagger documentation for the Phosphorus API
+  version: 2.0.0
+  title: Phosphorus Search API
+servers:
+- url: /
+  description: Server
+tags:
+- name: Search
+paths:
+  /api/v2/search:
+    get:
+      tags:
+      - Search
+      summary: The /api/v2/search endpoint allows querying of Devices based on their attributes. Queries are made by passing a query parameter q containing a query using the Search Query Syntax.
+      description: ''
+      operationId: searchv2
+      deprecated: false
+      parameters:
+      - schema:
+          type:
+          - string
+          - 'null'
+        name: q
+        in: query
+        required: false
+      - schema:
+          type: integer
+        name: offset
+        in: query
+        required: false
+      - schema:
+          type: integer
+          default: 20
+        name: limit
+        in: query
+        required: false
+      - schema:
+          type: string
+          default: alerts
+        name: orderBy
+        in: query
+        required: false
+      - schema:
+          type: boolean
+          default: false
+        name: desc
+        in: query
+        required: false
+      - schema:
+          type: boolean
+          default: false
+        name: facets
+        in: query
+        required: false
+      - schema:
+          type: boolean
+          default: false
+        name: graphMode
+        in: query
+        required: false
+      - schema:
+          type: boolean
+          description: Include CVE metrics in the response
+          default: false
+        name: includeCves
+        in: query
+        description: Include CVE metrics in the response
+        required: false
+      - schema:
+          type: boolean
+          description: Include detailed alert information in the response
+          default: false
+        name: includeAlerts
+        in: query
+        description: Include detailed alert information in the response
+        required: false
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSearchResponse'
+        '400':
+          description: Invalid input
+      security:
+      - ApiKeyAuth: []
+components:
+  schemas:
+    getSearchResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+        total:
+          type: number
+          format: float
+        devices:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              icon:
+                type:
+                - string
+                - 'null'
+              addr:
+                type:
+                - string
+                - 'null'
+              lost:
+                type: boolean
+              manufacturer:
+                type: string
+              mac:
+                type:
+                - string
+                - 'null'
+              model:
+                type: string
+              type:
+                type: string
+              firmware:
+                type:
+                - string
+                - 'null'
+              alerts:
+                anyOf:
+                - type: array
+                  items:
+                    type: string
+                - type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      severity:
+                        type: string
+                      created:
+                        type: string
+                        format: date-time
+                      subtype:
+                        type: string
+                      data:
+                        type: object
+                        properties: {}
+                        additionalProperties: false
+                    required:
+                    - id
+                    additionalProperties: false
+              credentialName:
+                type:
+                - string
+                - 'null'
+              lastInterrogation:
+                type:
+                - string
+                - 'null'
+                format: date-time
+              hostname:
+                type:
+                - string
+                - 'null'
+              tags:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    color:
+                      type: string
+                    automatic:
+                      type: string
+                      enum:
+                      - 'true'
+                      - 'false'
+                    id:
+                      type: string
+                  required:
+                  - name
+                  - color
+                  - automatic
+                  - id
+                  additionalProperties: false
+              siteName:
+                type: string
+              siteMode:
+                type: string
+              siteId:
+                type: string
+              canChangePassword:
+                type: boolean
+              canUpdate:
+                type: boolean
+              created:
+                type: string
+                format: date-time
+              latestfirmware:
+                type:
+                - string
+                - 'null'
+              serialnumber:
+                type:
+                - string
+                - 'null'
+              metadata:
+                type: object
+                properties: {}
+                additionalProperties: false
+              lostAddr:
+                type:
+                - string
+                - 'null'
+              passwordGroupName:
+                type:
+                - string
+                - 'null'
+              passwordGroupId:
+                type:
+                - number
+                - 'null'
+                format: float
+              kevCount:
+                type:
+                - number
+                - 'null'
+                format: float
+              epssScore:
+                type:
+                - number
+                - 'null'
+                format: float
+              cvssScore:
+                type:
+                - number
+                - 'null'
+                format: float
+              cvssV2Score:
+                type:
+                - number
+                - 'null'
+                format: float
+              cvssV3Score:
+                type:
+                - number
+                - 'null'
+                format: float
+              cvssV31Score:
+                type:
+                - number
+                - 'null'
+                format: float
+              cvssV4Score:
+                type:
+                - number
+                - 'null'
+                format: float
+              custom_row_id:
+                type: string
+              searchResult:
+                type: boolean
+              path:
+                type:
+                - array
+                - 'null'
+                items:
+                  type: string
+              vulnerabilityMetrics:
+                type:
+                - array
+                - 'null'
+                items:
+                  type: object
+                  properties: {}
+                  additionalProperties: false
+              provider:
+                type:
+                - string
+                - 'null'
+            required:
+            - id
+            - lost
+            - manufacturer
+            - model
+            - type
+            - tags
+            - siteName
+            - siteMode
+            - siteId
+            - canChangePassword
+            - canUpdate
+            - created
+            - lostAddr
+            - passwordGroupName
+            - passwordGroupId
+            - kevCount
+            - epssScore
+            - cvssScore
+            - cvssV2Score
+            - cvssV3Score
+            - cvssV31Score
+            - cvssV4Score
+            - custom_row_id
+            - searchResult
+            additionalProperties: false
+        facets:
+          type: object
+          properties: {}
+          additionalProperties:
+            type: array
+            items:
+              type: object
+              properties:
+                facetCount:
+                  type: number
+                  format: float
+                count:
+                  type: number
+                  format: float
+                facetKey:
+                  type: string
+                facetSelected:
+                  type: boolean
+                facetValue:
+                  type: string
+                facetValueDisplay:
+                  type: string
+                val:
+                  type: string
+              required:
+              - facetKey
+              - facetSelected
+              - facetValue
+              - val
+              additionalProperties: false
+      required:
+      - status
+      - total
+      - devices
+      - facets
+      additionalProperties: false
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
