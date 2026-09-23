@@ -13,7 +13,7 @@ paths:
     get:
       tags:
       - Search
-      summary: The /api/v2/search endpoint allows querying of Devices based on their attributes. Queries are made by passing a query parameter q containing a query using the Search Query Syntax.
+      summary: The /api/v2/search endpoint allows querying of Devices based on their…
       description: ''
       operationId: searchv2
       deprecated: false

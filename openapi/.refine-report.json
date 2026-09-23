@@ -1,0 +1,44 @@
+{
+  "provider": "phosphorus",
+  "sources": [
+    "_original/phosphorus-api-openapi.yml"
+  ],
+  "outputs": [
+    "phosphorus-alerts-api-openapi.yml",
+    "phosphorus-device-api-openapi.yml",
+    "phosphorus-devices-api-openapi.yml",
+    "phosphorus-dynamic-scans-api-openapi.yml",
+    "phosphorus-providers-api-openapi.yml",
+    "phosphorus-search-api-openapi.yml",
+    "phosphorus-sites-api-openapi.yml",
+    "phosphorus-vault-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "phosphorus-api-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "phosphorus-api-openapi.yml: declared missing tag: Alerts",
+    "phosphorus-api-openapi.yml: declared missing tag: Device",
+    "phosphorus-api-openapi.yml: declared missing tag: Devices",
+    "phosphorus-api-openapi.yml: declared missing tag: Dynamic Scans",
+    "phosphorus-api-openapi.yml: declared missing tag: Providers",
+    "phosphorus-api-openapi.yml: declared missing tag: Search",
+    "phosphorus-api-openapi.yml: declared missing tag: Sites",
+    "phosphorus-api-openapi.yml: declared missing tag: Vault",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/phosphorus-openapi.json: archived document superseded by a larger archived document",
+    "phosphorus-alerts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "phosphorus-device-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "phosphorus-devices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "phosphorus-dynamic-scans-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "phosphorus-providers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "phosphorus-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "phosphorus-sites-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "phosphorus-vault-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

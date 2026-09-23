@@ -13,7 +13,7 @@ paths:
     get:
       tags:
       - Alerts
-      summary: Get all alerts within a specified time range. Defaults to any active alerts in the last 24 hours.
+      summary: Get all alerts within a specified time range.
       description: ''
       operationId: getAlertsv2
       deprecated: false

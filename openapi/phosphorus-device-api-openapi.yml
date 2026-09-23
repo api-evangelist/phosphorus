@@ -13,7 +13,7 @@ paths:
     get:
       tags:
       - Device
-      summary: Return the current Device with a uuid specified in the URL, and optionally perform an interrogation.
+      summary: Return the current Device with a uuid specified in the URL, and optionally…
       description: ''
       operationId: getDeviceByUUIDv2
       deprecated: false
@@ -43,7 +43,7 @@ paths:
     get:
       tags:
       - Device
-      summary: Get a list of available alert objects for a specific device.
+      summary: Get a list of available alert objects for a specific device
       description: ''
       operationId: getDeviceAlertsByUUIDv2
       deprecated: false
@@ -125,7 +125,7 @@ paths:
     get:
       tags:
       - Device
-      summary: Get the available certificates for a specific device.
+      summary: Get the available certificates for a specific device
       description: ''
       operationId: getDeviceCertificateByUUIDv2
       deprecated: false
@@ -148,7 +148,7 @@ paths:
     get:
       tags:
       - Device
-      summary: Get the available credentials for a specific device.
+      summary: Get the available credentials for a specific device
       description: ''
       operationId: getDeviceCredentialByUUIDv2
       deprecated: false
@@ -171,7 +171,7 @@ paths:
     get:
       tags:
       - Device
-      summary: Get a list of available data provenance objects for a specific device.
+      summary: Get a list of available data provenance objects for a specific device
       description: ''
       operationId: getDeviceDataByUUIDv2
       deprecated: false
@@ -196,7 +196,7 @@ paths:
     get:
       tags:
       - Device
-      summary: Get a list of available firmware objects for a specific device. No search, or filters, just a list of the firmware for the device. The item in the array that is installed will return current:true in the JSON
+      summary: Get a list of available firmware objects for a specific device.
       description: ''
       operationId: getDeviceFirmwareByUUIDv2
       deprecated: false
@@ -219,7 +219,7 @@ paths:
     get:
       tags:
       - Device
-      summary: Get a list of available log objects for a specific device.
+      summary: Get a list of available log objects for a specific device
       description: ''
       operationId: getDeviceLogsByUUIDv2
       deprecated: false
@@ -283,7 +283,7 @@ paths:
     get:
       tags:
       - Device
-      summary: Get a list of available scans for a specific device.
+      summary: Get a list of available scans for a specific device
       description: ''
       operationId: getDeviceScansByUUIDv2
       deprecated: false
@@ -335,94 +335,6 @@ paths:
       - ApiKeyAuth: []
 components:
   schemas:
-    getDeviceLogsUUIDResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/logEntry'
-        total:
-          type: number
-          format: float
-        limit:
-          type: number
-          format: float
-        offset:
-          type: number
-          format: float
-        orderBy:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - total
-      - limit
-      - offset
-      additionalProperties: false
-    logEntry:
-      type: object
-      properties:
-        id:
-          type: string
-        message:
-          type: string
-        created:
-          type: string
-          format: date-time
-        device:
-          type: object
-          properties:
-            addr:
-              type: string
-            model:
-              type: string
-            manufacturer:
-              type: string
-          required:
-          - addr
-          additionalProperties: false
-        user:
-          type: string
-      required:
-      - id
-      - message
-      - created
-      additionalProperties: false
-    getDeviceAlertsUUIDResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/_alert'
-        total:
-          type: number
-          format: float
-        suppressedAlerts:
-          type: array
-          items:
-            $ref: '#/components/schemas/_alert'
-        suppressedAlertsCount:
-          type: number
-          format: float
-        limit:
-          type: number
-          format: float
-        offset:
-          type: number
-          format: float
-        orderBy:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - total
-      - suppressedAlerts
-      - suppressedAlertsCount
-      - limit
-      - offset
-      additionalProperties: false
     _alert:
       type: object
       properties:
@@ -461,6 +373,157 @@ components:
       - created
       - subtype
       - global_alert
+      additionalProperties: false
+    getDeviceScansUUIDResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              items:
+                type: string
+              job_id:
+                type: string
+              created:
+                type: string
+                format: date-time
+              data:
+                type: object
+                properties: {}
+                additionalProperties: false
+              legacy:
+                type: boolean
+              bulk_action_id:
+                type: string
+            required:
+            - items
+            - legacy
+            - bulk_action_id
+            additionalProperties: false
+      additionalProperties: false
+    Site:
+      type: object
+      properties:
+        id:
+          type: string
+        host:
+          type: string
+        port:
+          type: integer
+        hbPort:
+          type: integer
+        name:
+          type: string
+        lastSeen:
+          type: string
+          format: date-time
+        online:
+          type: boolean
+        default:
+          type: boolean
+        isLocal:
+          type: boolean
+        acceptingScans:
+          type: boolean
+        smMode:
+          type: string
+        config:
+          type: object
+          properties: {}
+          additionalProperties: false
+        smVersion:
+          type: string
+        smHostInfo:
+          type: object
+          properties: {}
+          additionalProperties: false
+        addr:
+          type: string
+      required:
+      - id
+      - host
+      - port
+      - hbPort
+      - name
+      - online
+      - default
+      - isLocal
+      - acceptingScans
+      additionalProperties: false
+    firmwareObj:
+      type: object
+      properties:
+        id:
+          type: number
+          format: float
+        md5:
+          type: string
+        url:
+          type: string
+        cves:
+          type: array
+          items:
+            type: string
+        note:
+          type: string
+        size:
+          type: number
+          format: float
+        crc32c:
+          type: string
+        models:
+          type: array
+          items:
+            type: string
+        sha256:
+          type: string
+        current:
+          type: boolean
+        upgrade:
+          type: boolean
+        version:
+          type: string
+        filename:
+          type: string
+        metadata:
+          type: array
+          items: {}
+        severity:
+          type: string
+        canUpdate:
+          type: boolean
+        downgrade:
+          type: boolean
+        userManual:
+          type: string
+        vulnerable:
+          type: boolean
+        releaseDate:
+          type: string
+          format: date-time
+        releaseNotes:
+          type: string
+      required:
+      - id
+      - md5
+      - url
+      - note
+      - size
+      - crc32c
+      - sha256
+      - current
+      - upgrade
+      - version
+      - filename
+      - severity
+      - canUpdate
+      - downgrade
+      - userManual
+      - vulnerable
+      - releaseDate
+      - releaseNotes
       additionalProperties: false
     device:
       type: object
@@ -643,117 +706,68 @@ components:
       - name
       - modelFile
       additionalProperties: false
-    firmwareObj:
+    logEntry:
       type: object
       properties:
         id:
-          type: number
-          format: float
-        md5:
           type: string
-        url:
+        message:
           type: string
-        cves:
-          type: array
-          items:
-            type: string
-        note:
-          type: string
-        size:
-          type: number
-          format: float
-        crc32c:
-          type: string
-        models:
-          type: array
-          items:
-            type: string
-        sha256:
-          type: string
-        current:
-          type: boolean
-        upgrade:
-          type: boolean
-        version:
-          type: string
-        filename:
-          type: string
-        metadata:
-          type: array
-          items: {}
-        severity:
-          type: string
-        canUpdate:
-          type: boolean
-        downgrade:
-          type: boolean
-        userManual:
-          type: string
-        vulnerable:
-          type: boolean
-        releaseDate:
+        created:
           type: string
           format: date-time
-        releaseNotes:
+        device:
+          type: object
+          properties:
+            addr:
+              type: string
+            model:
+              type: string
+            manufacturer:
+              type: string
+          required:
+          - addr
+          additionalProperties: false
+        user:
           type: string
       required:
       - id
-      - md5
-      - url
-      - note
-      - size
-      - crc32c
-      - sha256
-      - current
-      - upgrade
-      - version
-      - filename
-      - severity
-      - canUpdate
-      - downgrade
-      - userManual
-      - vulnerable
-      - releaseDate
-      - releaseNotes
+      - message
+      - created
       additionalProperties: false
-    getDeviceScansUUIDResponse:
+    getDeviceAlertsUUIDResponse:
       type: object
       properties:
         items:
           type: array
           items:
-            type: object
-            properties:
-              items:
-                type: string
-              job_id:
-                type: string
-              created:
-                type: string
-                format: date-time
-              data:
-                type: object
-                properties: {}
-                additionalProperties: false
-              legacy:
-                type: boolean
-              bulk_action_id:
-                type: string
-            required:
-            - items
-            - legacy
-            - bulk_action_id
-            additionalProperties: false
-      additionalProperties: false
-    getDeviceUUIDResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        device:
-          $ref: '#/components/schemas/device'
+            $ref: '#/components/schemas/_alert'
+        total:
+          type: number
+          format: float
+        suppressedAlerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/_alert'
+        suppressedAlertsCount:
+          type: number
+          format: float
+        limit:
+          type: number
+          format: float
+        offset:
+          type: number
+          format: float
+        orderBy:
+          type: object
+          properties: {}
+          additionalProperties: false
       required:
-      - success
+      - total
+      - suppressedAlerts
+      - suppressedAlertsCount
+      - limit
+      - offset
       additionalProperties: false
     getDeviceDataUUIDResponse:
       type: object
@@ -771,54 +785,40 @@ components:
       - items
       - total
       additionalProperties: false
-    Site:
+    getDeviceLogsUUIDResponse:
       type: object
       properties:
-        id:
-          type: string
-        host:
-          type: string
-        port:
-          type: integer
-        hbPort:
-          type: integer
-        name:
-          type: string
-        lastSeen:
-          type: string
-          format: date-time
-        online:
-          type: boolean
-        default:
-          type: boolean
-        isLocal:
-          type: boolean
-        acceptingScans:
-          type: boolean
-        smMode:
-          type: string
-        config:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/logEntry'
+        total:
+          type: number
+          format: float
+        limit:
+          type: number
+          format: float
+        offset:
+          type: number
+          format: float
+        orderBy:
           type: object
           properties: {}
           additionalProperties: false
-        smVersion:
-          type: string
-        smHostInfo:
-          type: object
-          properties: {}
-          additionalProperties: false
-        addr:
-          type: string
       required:
-      - id
-      - host
-      - port
-      - hbPort
-      - name
-      - online
-      - default
-      - isLocal
-      - acceptingScans
+      - total
+      - limit
+      - offset
+      additionalProperties: false
+    getDeviceUUIDResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        device:
+          $ref: '#/components/schemas/device'
+      required:
+      - success
       additionalProperties: false
   securitySchemes:
     ApiKeyAuth:
