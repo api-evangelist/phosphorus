@@ -133,45 +133,7 @@ paths:
       - ApiKeyAuth: []
 components:
   schemas:
-    updateSecretResponse:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        version:
-          type:
-          - string
-          - 'null'
-      required:
-      - name
-      - version
-      additionalProperties: false
-    getSecretsResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          externalId:
-            type: string
-        required:
-        - name
-        - externalId
-        additionalProperties: false
-    createSecretResponse:
-      type: object
-      properties:
-        secret:
-          type:
-          - string
-          - 'null'
-      required:
-      - secret
-      additionalProperties: false
-    createSecretBody:
+    updateSecretBody:
       type: object
       properties:
         login:
@@ -182,16 +144,9 @@ components:
           type:
           - string
           - 'null'
-        name:
-          type: string
-        serialNumber:
-          type:
-          - string
-          - 'null'
       required:
       - login
       - password
-      - name
       additionalProperties: false
     getReportDataResponse:
       type: object
@@ -223,7 +178,7 @@ components:
       - login
       - password
       additionalProperties: false
-    updateSecretBody:
+    createSecretBody:
       type: object
       properties:
         login:
@@ -234,10 +189,55 @@ components:
           type:
           - string
           - 'null'
+        name:
+          type: string
+        serialNumber:
+          type:
+          - string
+          - 'null'
       required:
       - login
       - password
+      - name
       additionalProperties: false
+    createSecretResponse:
+      type: object
+      properties:
+        secret:
+          type:
+          - string
+          - 'null'
+      required:
+      - secret
+      additionalProperties: false
+    updateSecretResponse:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        version:
+          type:
+          - string
+          - 'null'
+      required:
+      - name
+      - version
+      additionalProperties: false
+    getSecretsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          externalId:
+            type: string
+        required:
+        - name
+        - externalId
+        additionalProperties: false
     updateVaultToDefaultBody:
       type: object
       properties:
