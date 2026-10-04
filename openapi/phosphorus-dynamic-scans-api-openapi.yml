@@ -217,6 +217,24 @@ paths:
       - ApiKeyAuth: []
 components:
   schemas:
+    DynamicScanSubmissionData:
+      type: object
+      properties:
+        scanConfigId:
+          type: string
+          format: uuid
+          description: Unique identifier of a dynamic scan configuration
+        networks:
+          type: array
+          items:
+            type: string
+            description: Network to scan
+          minItems: 1
+          description: List of networks to scan
+      required:
+      - scanConfigId
+      - networks
+      additionalProperties: false
     DynamicScanSubmissionResponse:
       type: object
       properties:
@@ -231,6 +249,62 @@ components:
       required:
       - submittedAddresses
       - invalidAddresses
+      additionalProperties: false
+    CreateDynamicScanConfigBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Name of the dynamic scan config
+        description:
+          type: string
+          description: Description of the dynamic scan config
+        siteId:
+          type: string
+          format: uuid
+          description: Site ID associated with the dynamic scan config
+        providerId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        config:
+          type: object
+          properties:
+            excludedNetworks:
+              type: array
+              items:
+                type: string
+            limit:
+              type: number
+              format: float
+            lookBackHours:
+              type: number
+              format: float
+            schedule:
+              type: object
+              properties:
+                tz:
+                  type: string
+                cron:
+                  type: string
+              required:
+              - tz
+              - cron
+              additionalProperties: false
+          required:
+          - excludedNetworks
+          - limit
+          - lookBackHours
+          - schedule
+          additionalProperties: false
+          description: Dynamic scan configuration details
+      required:
+      - name
+      - siteId
+      - config
       additionalProperties: false
     UpdateDynamicScanConfigBody:
       type: object
@@ -288,6 +362,23 @@ components:
       - siteId
       - config
       additionalProperties: false
+    DynamicScanConfigMetrics:
+      type: object
+      properties:
+        totalIPsScanned:
+          type: number
+          format: float
+          description: Total number of IPs scanned
+        totalScanRequests:
+          type: number
+          format: float
+          description: Total number of scan data submissions received
+      additionalProperties: false
+      description: Dynamic scan configuration metrics
+    ListDynamicScanConfigsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/DynamicScanConfig'
     DynamicScanConfig:
       type: object
       properties:
@@ -389,93 +480,6 @@ components:
       - siteName
       - enabled
       additionalProperties: false
-    CreateDynamicScanConfigBody:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 255
-          description: Name of the dynamic scan config
-        description:
-          type: string
-          description: Description of the dynamic scan config
-        siteId:
-          type: string
-          format: uuid
-          description: Site ID associated with the dynamic scan config
-        providerId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        config:
-          type: object
-          properties:
-            excludedNetworks:
-              type: array
-              items:
-                type: string
-            limit:
-              type: number
-              format: float
-            lookBackHours:
-              type: number
-              format: float
-            schedule:
-              type: object
-              properties:
-                tz:
-                  type: string
-                cron:
-                  type: string
-              required:
-              - tz
-              - cron
-              additionalProperties: false
-          required:
-          - excludedNetworks
-          - limit
-          - lookBackHours
-          - schedule
-          additionalProperties: false
-          description: Dynamic scan configuration details
-      required:
-      - name
-      - siteId
-      - config
-      additionalProperties: false
-    DynamicScanSubmissionData:
-      type: object
-      properties:
-        scanConfigId:
-          type: string
-          format: uuid
-          description: Unique identifier of a dynamic scan configuration
-        networks:
-          type: array
-          items:
-            type: string
-            description: Network to scan
-          minItems: 1
-          description: List of networks to scan
-      required:
-      - scanConfigId
-      - networks
-      additionalProperties: false
-    DynamicScanConfigMetrics:
-      type: object
-      properties:
-        totalIPsScanned:
-          type: number
-          format: float
-          description: Total number of IPs scanned
-        totalScanRequests:
-          type: number
-          format: float
-          description: Total number of scan data submissions received
-      additionalProperties: false
-      description: Dynamic scan configuration metrics
     DynamicScanConfigResponse:
       type: object
       properties:
@@ -577,10 +581,6 @@ components:
       - siteName
       - enabled
       additionalProperties: false
-    ListDynamicScanConfigsResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/DynamicScanConfig'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
