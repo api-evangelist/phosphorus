@@ -1,0 +1,35 @@
+slug: phosphorus
+provider: Phosphorus
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Device
+  spec_file: phosphorus-device-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.8
+  evidence: getDeviceCredentialByUUIDv2 'Get the available credentials for a specific device', getDeviceFirmwareByUUIDv2,
+    getDeviceScansByUUIDv2 'Get a list of available scans for a specific device'
+  reason: Per-device security posture surface — credentials, certificates, firmware, scans, alerts — on
+    an xIoT security platform. Clearly Cybersecurity Management, but it spans vulnerability scanning,
+    credential management and detection, so no single L2 is named by the evidence.
+- tag: Dynamic Scans
+  spec_file: phosphorus-dynamic-scans-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.7
+  evidence: createDynamicScanConfigv3 'Create a dynamic scan config', enableDynamicScanConfigv3, submitDynamicScanDatav3
+  reason: Configuration and lifecycle of device scans on a security platform maps to vulnerability scanning/assessment;
+    some residual ambiguity about whether these scans are discovery or vulnerability oriented.

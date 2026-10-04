@@ -222,6 +222,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/phosphorus-capability-edges.yml
+  name: Phosphorus Business Capability Map
 - type: Overlay
   url: overlays/phosphorus-api-overlay.yaml
 - type: AgentSkill
