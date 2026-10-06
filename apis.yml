@@ -41,7 +41,7 @@ x-type: company
 x-source: harvest:secondary-market
 specificationVersion: '0.20'
 created: '2026-08-26'
-modified: '2026-08-26'
+modified: '2026-10-06'
 tags:
 - Cybersecurity
 - xIoT Security
@@ -222,6 +222,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- url: https://phosphorus.io/feed/
+  type: BlogRSS
 - type: CapabilityMap
   url: capabilities/phosphorus-capability-edges.yml
   name: Phosphorus Business Capability Map
