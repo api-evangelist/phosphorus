@@ -133,6 +133,16 @@ paths:
       - ApiKeyAuth: []
 components:
   schemas:
+    createSecretResponse:
+      type: object
+      properties:
+        secret:
+          type:
+          - string
+          - 'null'
+      required:
+      - secret
+      additionalProperties: false
     getSecretsResponse:
       type: array
       items:
@@ -161,61 +171,6 @@ components:
       - name
       - version
       additionalProperties: false
-    updateSecretBody:
-      type: object
-      properties:
-        login:
-          type:
-          - string
-          - 'null'
-        password:
-          type:
-          - string
-          - 'null'
-      required:
-      - login
-      - password
-      additionalProperties: false
-    createSecretBody:
-      type: object
-      properties:
-        login:
-          type:
-          - string
-          - 'null'
-        password:
-          type:
-          - string
-          - 'null'
-        name:
-          type: string
-        serialNumber:
-          type:
-          - string
-          - 'null'
-      required:
-      - login
-      - password
-      - name
-      additionalProperties: false
-    createSecretResponse:
-      type: object
-      properties:
-        secret:
-          type:
-          - string
-          - 'null'
-      required:
-      - secret
-      additionalProperties: false
-    updateVaultToDefaultBody:
-      type: object
-      properties:
-        isDefault:
-          type: boolean
-      required:
-      - isDefault
-      additionalProperties: false
     getReportDataResponse:
       type: object
       properties:
@@ -243,6 +198,51 @@ components:
       - externalId
       - provider
       - version
+      - login
+      - password
+      additionalProperties: false
+    updateVaultToDefaultBody:
+      type: object
+      properties:
+        isDefault:
+          type: boolean
+      required:
+      - isDefault
+      additionalProperties: false
+    createSecretBody:
+      type: object
+      properties:
+        login:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        serialNumber:
+          type:
+          - string
+          - 'null'
+      required:
+      - login
+      - password
+      - name
+      additionalProperties: false
+    updateSecretBody:
+      type: object
+      properties:
+        login:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+      required:
       - login
       - password
       additionalProperties: false

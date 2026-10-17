@@ -516,79 +516,6 @@ components:
       - name
       - modelFile
       additionalProperties: false
-    getDeviceAlertsUUIDResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/_alert'
-        total:
-          type: number
-          format: float
-        suppressedAlerts:
-          type: array
-          items:
-            $ref: '#/components/schemas/_alert'
-        suppressedAlertsCount:
-          type: number
-          format: float
-        limit:
-          type: number
-          format: float
-        offset:
-          type: number
-          format: float
-        orderBy:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - total
-      - suppressedAlerts
-      - suppressedAlertsCount
-      - limit
-      - offset
-      additionalProperties: false
-    _alert:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        severity:
-          type: string
-        created:
-          type: string
-          format: date-time
-        subtype:
-          type: string
-        data:
-          type: object
-          properties: {}
-          additionalProperties: false
-        global_alert:
-          type: boolean
-        custom_alert:
-          type:
-          - boolean
-          - 'null'
-        device_alert:
-          type:
-          - boolean
-          - 'null'
-      required:
-      - id
-      - name
-      - description
-      - severity
-      - created
-      - subtype
-      - global_alert
-      additionalProperties: false
     getDeviceScansUUIDResponse:
       type: object
       properties:
@@ -691,6 +618,114 @@ components:
       - releaseDate
       - releaseNotes
       additionalProperties: false
+    getDeviceUUIDResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        device:
+          $ref: '#/components/schemas/device'
+      required:
+      - success
+      additionalProperties: false
+    getDeviceLogsUUIDResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/logEntry'
+        total:
+          type: number
+          format: float
+        limit:
+          type: number
+          format: float
+        offset:
+          type: number
+          format: float
+        orderBy:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - total
+      - limit
+      - offset
+      additionalProperties: false
+    getDeviceAlertsUUIDResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/_alert'
+        total:
+          type: number
+          format: float
+        suppressedAlerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/_alert'
+        suppressedAlertsCount:
+          type: number
+          format: float
+        limit:
+          type: number
+          format: float
+        offset:
+          type: number
+          format: float
+        orderBy:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - total
+      - suppressedAlerts
+      - suppressedAlertsCount
+      - limit
+      - offset
+      additionalProperties: false
+    _alert:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        severity:
+          type: string
+        created:
+          type: string
+          format: date-time
+        subtype:
+          type: string
+        data:
+          type: object
+          properties: {}
+          additionalProperties: false
+        global_alert:
+          type: boolean
+        custom_alert:
+          type:
+          - boolean
+          - 'null'
+        device_alert:
+          type:
+          - boolean
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - severity
+      - created
+      - subtype
+      - global_alert
+      additionalProperties: false
     getDeviceDataUUIDResponse:
       type: object
       properties:
@@ -706,35 +741,6 @@ components:
       required:
       - items
       - total
-      additionalProperties: false
-    logEntry:
-      type: object
-      properties:
-        id:
-          type: string
-        message:
-          type: string
-        created:
-          type: string
-          format: date-time
-        device:
-          type: object
-          properties:
-            addr:
-              type: string
-            model:
-              type: string
-            manufacturer:
-              type: string
-          required:
-          - addr
-          additionalProperties: false
-        user:
-          type: string
-      required:
-      - id
-      - message
-      - created
       additionalProperties: false
     Site:
       type: object
@@ -785,40 +791,34 @@ components:
       - isLocal
       - acceptingScans
       additionalProperties: false
-    getDeviceUUIDResponse:
+    logEntry:
       type: object
       properties:
-        success:
-          type: boolean
+        id:
+          type: string
+        message:
+          type: string
+        created:
+          type: string
+          format: date-time
         device:
-          $ref: '#/components/schemas/device'
-      required:
-      - success
-      additionalProperties: false
-    getDeviceLogsUUIDResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/logEntry'
-        total:
-          type: number
-          format: float
-        limit:
-          type: number
-          format: float
-        offset:
-          type: number
-          format: float
-        orderBy:
           type: object
-          properties: {}
+          properties:
+            addr:
+              type: string
+            model:
+              type: string
+            manufacturer:
+              type: string
+          required:
+          - addr
           additionalProperties: false
+        user:
+          type: string
       required:
-      - total
-      - limit
-      - offset
+      - id
+      - message
+      - created
       additionalProperties: false
   securitySchemes:
     ApiKeyAuth:
