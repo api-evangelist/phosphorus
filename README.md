@@ -64,19 +64,121 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Phosphorus Cybersecurity is a cyber-physical systems (CPS) security company in Nashville, Tennessee, founded in 2017
-by Chris Rouland, Earle Ady and Rebecca Rouland, and acquired by Dragos on 1 June 2026. Its agentless xIoT platform
-discovers, assesses, hardens and remediates IoT, OT, IIoT and IoMT devices across enterprise and critical infrastructure
-networks.
+Phosphorus Cybersecurity is a Nashville, Tennessee cyber-physical systems (CPS) security company founded in 2017 by Chris Rouland, Earle Ady and Rebecca Rouland, and acquired by Dragos on 1 June 2026. Its agentless xIoT platform discovers, assesses, hardens and remediates IoT, OT, IIoT and IoMT devices across enterprise and critical infrastructure networks, automating credential rotation, firmware updates, certificate management, and vulnerability assessment at scale without additional hardware or endpoint agents. The platform exposes a customer-facing REST API (v2 and v3) described by an OpenAPI 3.0.0 contract that Phosphorus serves from each tenant instance at /api/swagger/public/swagger.json, covering devices, alerts, firmware, certificates, credentials, sites, search, dynamic scans, integration providers, and the Phosphorus Vault, authenticated with an X-API-KEY request header.
 
-Phosphorus publishes an OpenAPI 3.0.0 contract for its REST API — 24 paths, 30 operations, `X-API-KEY` header auth —
-serving it from each tenant instance at `/api/swagger/public/swagger.json`. It publishes no developer portal, no public
-API reference, no SDK, no MCP server and no pricing; the human-readable reference sits behind the customer support
-portal.
+**Areas:** Cybersecurity · xIoT Security · IoT Security · OT Security · IoMT · Asset Discovery · Vulnerability Management · Firmware Management · Certificate Management · Credential Management · Critical Infrastructure · Device Management
 
-- Website: https://phosphorus.io/
-- Platform: https://phosphorus.io/platform/
-- Support: https://phosphorus.io/support/
-- GitHub: https://github.com/phosphorusinc
-- Security contact: security@phosphorus.io (PGP key at https://github.com/phosphorusinc/public)
-- Harvest source (secondary market): https://forgeglobal.com/phosphorus_stock/
+## Phosphorus on APIs.io
+
+Everything profiled for Phosphorus is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/phosphorus/](https://apis.io/providers/phosphorus/)** — or go straight to one of the APIs or properties below.
+
+### APIs (8)
+
+- [Phosphorus Alerts API](https://apis.io/apis/phosphorus/phosphorus-alerts-api/) — The Alerts API from Phosphorus — 1 operation(s) for alerts.
+- [Phosphorus Device API](https://apis.io/apis/phosphorus/phosphorus-device-api/) — The Device API from Phosphorus — 8 operation(s) for device.
+- [Phosphorus Devices API](https://apis.io/apis/phosphorus/phosphorus-devices-api/) — The Devices API from Phosphorus — 1 operation(s) for devices.
+- [Phosphorus Dynamic Scans API](https://apis.io/apis/phosphorus/phosphorus-dynamic-scans-api/) — The Dynamic Scans API from Phosphorus — 5 operation(s) for dynamic scans.
+- [Phosphorus Providers API](https://apis.io/apis/phosphorus/phosphorus-providers-api/) — The Providers API from Phosphorus — 5 operation(s) for providers.
+- [Phosphorus Search API](https://apis.io/apis/phosphorus/phosphorus-search-api/) — The Search API from Phosphorus — 1 operation(s) for search.
+- [Phosphorus Sites API](https://apis.io/apis/phosphorus/phosphorus-sites-api/) — The Sites API from Phosphorus — 1 operation(s) for sites.
+- [Phosphorus Vault API](https://apis.io/apis/phosphorus/phosphorus-vault-api/) — The Vault API from Phosphorus — 2 operation(s) for vault.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Phosphorus MCP (candidate)](https://apis.io/servers/phosphorus/phosphorus-mcp-candidate/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Phosphorus Api Overlay](https://apis.io/overlays/phosphorus/phosphorus-api-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Phosphorus Authentication](https://apis.io/security/phosphorus/phosphorus-authentication/)
+- [Phosphorus Domain Security](https://apis.io/security/phosphorus/phosphorus-domain-security/)
+- [Phosphorus Vulnerability Disclosure](https://apis.io/security/phosphorus/phosphorus-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Phosphorus Plans Pricing](https://apis.io/plans/phosphorus/phosphorus-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Phosphorus Rate Limits](https://apis.io/rate-limits/phosphorus/phosphorus-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://phosphorus.io/)
+- [Support](https://phosphorus.io/support/)
+- [Blog](https://phosphorus.io/resource-center/blog/)
+- [Terms of service](https://phosphorus.io/terms-of-service/)
+- [Privacy policy](https://phosphorus.io/privacy-policy/)
+- [GitHub](https://github.com/phosphorusinc)
+
+## API Evangelist rating
+
+**Kin Score 32.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 44.3 |
+| Contract governance | 4.5 |
+| Operational transparency | 13.2 |
+| Developer ergonomics | 20.8 |
+| Access clarity | 34.2 |
+
+**Agent readiness 20.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 30.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/phosphorus/](https://apis.io/providers/phosphorus/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Phosphorus: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/phosphorus/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
